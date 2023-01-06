@@ -22,8 +22,11 @@ function App() {
         {
           question: "czy warto sie uczyc js",
           answer: "tak warto",
-         
         },
+        {
+          question:"trtrtrtr",
+          answer:"trtrtr",
+        }
       ],
     },
   ]);

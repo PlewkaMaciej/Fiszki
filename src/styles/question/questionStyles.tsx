@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 export const MainContainer = styled.div`
 
     display: flex;
@@ -6,6 +6,23 @@ export const MainContainer = styled.div`
     background-color: #131A22;
     min-height:100vh;
     flex-wrap: wrap;
+`
+
+export const ArrowLeftImg = styled.img`
+position:absolute;
+top:220px;
+width :96px;
+height:96px;
+cursor:pointer;
+left:200px;
+`
+export const ArrowRightImg = styled.img`
+position:absolute;
+top:220px;
+width :96px;
+height:96px;
+cursor:pointer;
+right:200px;
 `
 export const CardContainer = styled.div`
 background-color: white;

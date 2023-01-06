@@ -1,6 +1,8 @@
 import { Card } from "../App";
-import { MainContainer, CardContainer, Heading, Paragraph, ShowAnswerButton } from "../styles/question/questionStyles";
+import { MainContainer, CardContainer, Heading, Paragraph, ShowAnswerButton, ArrowLeftImg, ArrowRightImg } from "../styles/question/questionStyles";
 import { useState } from "react";
+import ArrowLeft from "../icons/arrowLeft.png"
+import ArrowRight from "../icons/arrowRight.png"
 interface Props {
   cards: Card[];
   setCards: (cards: Card[]) => void;
@@ -16,19 +18,30 @@ function Questions(props: Props) {
     else (
       setShowAnswer(false)
     )
-    cards.map((singleCard: Card, index) => {
-      return (
-        console.log(singleCard.questions.length)
-
-      )
-    })
   }
-
+const increaseQuestion = ()=>{
+  let newQuestion= whichQuestion+1
+  setWhichQuestion(newQuestion)
+}
+const decreaseQuestion= ()=>{
+  let newQuestion=whichQuestion-1
+  setWhichQuestion(newQuestion)
+}
   return (
     <MainContainer>
+      
+     
+      {whichQuestion!==0&&
+        <ArrowLeftImg onClick={decreaseQuestion} src={ArrowLeft} alt="arrowLeft" />
+      }
+
       {cards.map((singleCard: Card, index) => {
         return (
+          
           <CardContainer key={index}>
+            {whichQuestion<=index&&
+ <ArrowRightImg onClick={increaseQuestion} src={ArrowRight} alt="arrowRight" />
+      }
             {singleCard.questions.map((questions, index) => (
               <>
                 {whichQuestion === index &&
