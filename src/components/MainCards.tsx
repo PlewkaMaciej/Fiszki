@@ -8,7 +8,6 @@ interface Props {
 
 }
 function MainCards(props: Props) {
-
   const { cards, setCards } = props;
   const checkWhatCardIClicked = (singleCard: Card) => {
     const newCards = cards.map((card) => {
@@ -18,7 +17,7 @@ function MainCards(props: Props) {
       return card;
     });
     setCards(newCards);
-    navigate("/questions");
+    navigate("/questions/");
   }
   const navigate = useNavigate();
   return (

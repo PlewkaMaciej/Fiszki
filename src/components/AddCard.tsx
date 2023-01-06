@@ -33,7 +33,7 @@ function AddCard(props: Props) {
     }
    
   };
-  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = () => {
     if (title.length >= 6 && description.length >= 6) {
       const newCard: Card = {
         title: title,

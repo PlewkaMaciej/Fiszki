@@ -14,7 +14,7 @@ top:220px;
 width :96px;
 height:96px;
 cursor:pointer;
-left:200px;
+left:400px;
 `
 export const ArrowRightImg = styled.img`
 position:absolute;
@@ -22,7 +22,7 @@ top:220px;
 width :96px;
 height:96px;
 cursor:pointer;
-right:200px;
+right:400px;
 `
 export const CardContainer = styled.div`
 background-color: white;
@@ -65,6 +65,32 @@ export const ShowAnswerButton = styled.button`
   background: linear-gradient(to right, #00b0ff, #0091ea);
   width: 100px;
   height: 50px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s infinite, transform 0.2s infinite;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+    
+  }
+
+  &:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(1px);
+  }
+`;
+export const AddNewQuestionButton = styled.button`
+  background: linear-gradient(to right, #00b0ff, #0091ea);
+  position:absolute;
+  top:60%;
+  width: 200px;
+  height: 100px;
   border: none;
   border-radius: 5px;
   color: white;
