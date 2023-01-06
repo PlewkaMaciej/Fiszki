@@ -1,17 +1,5 @@
 import styled, { keyframes } from "styled-components";
-<link href="https://fonts.googleapis.com/css2?family=Andika&display=swap" rel="stylesheet"></link>
-const bounce = keyframes`
-0% {
-  transform: translateY(0);
-}
-50% {
-  transform: translateY(-10px);
-}
-100% {
-  transform: translateY(0);
-}
-`;
-export const Container = styled.div`
+export const MainContainer = styled.div`
 
     display: flex;
     justify-content:center;
@@ -19,77 +7,47 @@ export const Container = styled.div`
     min-height:100vh;
     flex-wrap: wrap;
 `
-export const SecondContainer= styled.div`
-display:flex;
-justify-content:center;
-background-color: #131A22;
-flex-direction:column;
-align-items:center;
-`
-
-
-export const SingleCardContainer = styled.div`
+export const CardContainer = styled.div`
 background-color: white;
 border-radius: 5px;
 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 display: flex;
 justify-content: center;
-width: 350px;
-height: 200px;
+width: 600px;
+height: 400px;
 
 &:hover {
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
-  animation: ${bounce} 0.5s infinite;
-  animation-fill-mode: forwards
 }
 white-space: pre-wrap;
 margin: 5%;
 flex-direction: column;
 align-items: center;
 text-align: center;
-cursor: pointer;
 color: #00b0ff;
 font-size: 16px;
 transition: box-shadow 0.2s infinite;
 
 `
+
+
 export const Heading = styled.h2`
- font-size:32px;
- margin:5%;
- min-width:300px;
- max-height:50px:
- font-weight:600;
- border-bottom: 1px solid #00b0ff;
- position:relative;
- bottom:15%;
+font-size:32px; color: #00b0ff;  min-width:500px; max-height:50px: font-weight:600; border-bottom: 1px solid #00b0ff;
+position:absolute;
+bottom:80%;
 `
-export const Paragraph= styled.p`
+export const Paragraph = styled.p`
 font-size:16px;
-margin:5%;
 max-width:300px;
 max-height:120px;
 color:#131A22;
 font-weight:550;
 position:relative;
-bottom:10%
-
 `
-export const BigHeading = styled.h1`
-font-size:64px;
-color:white;
-margin-top:3%;
-`
-
-
-
-
-
-
-export const AddButton = styled.button`
+export const ShowAnswerButton = styled.button`
   background: linear-gradient(to right, #00b0ff, #0091ea);
-  margin-top:5%;
-  width: 300px;
-  height: 5%;
+  width: 100px;
+  height: 50px;
   border: none;
   border-radius: 5px;
   color: white;
@@ -102,7 +60,6 @@ export const AddButton = styled.button`
   &:hover {
     cursor: pointer;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
-    animation: ${bounce} 0.5s infinite;
     
   }
 

@@ -9,7 +9,7 @@ export interface Card {
   title: string;
   description: string;
   isCardAbleToSee:boolean;
-  questions: { question: string; answer: string; canIseeAnswer: boolean }[];
+  questions: { question: string; answer: string;  }[];
 }
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
         {
           question: "czy warto sie uczyc js",
           answer: "tak warto",
-          canIseeAnswer: false,
+         
         },
       ],
     },
