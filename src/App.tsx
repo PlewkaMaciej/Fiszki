@@ -14,6 +14,7 @@ export interface Card {
 }
 
 function App() {
+ 
   const [cards, setCards] = useState<Card[]>([
     {
       title: "Fiszki Js",
@@ -33,6 +34,7 @@ function App() {
       ],
     },
   ]);
+ 
   return (
     <>
       <GlobalStyle />

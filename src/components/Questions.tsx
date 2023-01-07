@@ -3,7 +3,7 @@ import { MainContainer, CardContainer, Heading, Paragraph, ShowAnswerButton, Arr
 import { useState } from "react";
 import ArrowLeft from "../icons/arrowLeft.png"
 import ArrowRight from "../icons/arrowRight.png"
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 interface Props {
   cards: Card[];
   setCards: (cards: Card[]) => void;
@@ -24,7 +24,7 @@ function Questions(props: Props) {
   const increaseQuestion = () => {
     setWhichQuestion(whichQuestion + 1)
     setShowAnswer(false)
-  
+
 
   }
   const decreaseQuestion = () => {
@@ -35,31 +35,29 @@ function Questions(props: Props) {
     <MainContainer>
 
 
-      {whichQuestion !== 0 &&
-        <ArrowLeftImg onClick={decreaseQuestion} src={ArrowLeft} alt="arrowLeft" />
-      }
 
       {cards.map((singleCard: Card, index) => {
         return (
           <>
+          {singleCard.isCardAbleToSee&&
+          <>
             <AddNewQuestionButton onClick={() => {
-          navigate(`/addQuestions/${index}`);
-        }}>Add new question to card</AddNewQuestionButton>
+              navigate(`/addQuestions/${index}`);
+            }}>Add new question to card</AddNewQuestionButton>
             <CardContainer key={index}>
-               
-             
               {singleCard.questions.map((questions, index) => (
-                
                 <>
-                {whichQuestion<index &&
-                  <ArrowRightImg  onClick={increaseQuestion} src={ArrowRight} alt="arrowRight" />
-                }
+                  {whichQuestion < index &&
+                    <ArrowRightImg onClick={increaseQuestion} src={ArrowRight} alt="arrowRight" />
+                  }
+                  {whichQuestion !== 0 &&
+                    <ArrowLeftImg onClick={decreaseQuestion} src={ArrowLeft} alt="arrowLeft" />
+                  }
                   {whichQuestion === index &&
                     <>
                       <Heading>{questions.question}</Heading>
                       {!showAnswer &&
                         <ShowAnswerButton onClick={showAnswerFunction}>Show Answer</ShowAnswerButton>
-
                       }
                       {showAnswer &&
                         <>
@@ -72,13 +70,23 @@ function Questions(props: Props) {
                 </>
               ))}
             </CardContainer>
+            </>
+          }
+            
           </>
         )
       })}
 
     </MainContainer>
-
   );
 }
 
 export default Questions;
+
+
+
+
+
+
+
+
