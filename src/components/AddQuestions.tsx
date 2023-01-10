@@ -4,14 +4,15 @@ import { Input, InputContainer, Container, Label, AddButton, ErrorParagraph ,Mai
 import { useNavigate, useParams } from "react-router-dom";
 
 interface Props {
-  cards: Card[];
+  
   setCards: React.Dispatch<React.SetStateAction<Card[]>>;
   
 }
 function AddQuestions(props: Props) {
+  let selectedCard:Card;
     const { id } = useParams();
     const navigate = useNavigate();
-    const { cards, setCards } = props;
+    const {  setCards } = props;
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [titleError, setTitleError] = useState<string | null>(null);
@@ -42,7 +43,8 @@ function AddQuestions(props: Props) {
         if (title.length >= 6 && description.length >= 6) {
             setCards((prevCards: Card[]) => {
                 const updatedCards = prevCards.map((card: Card,index) => {
-                  if (index.toString() === id) {
+                  if (card.id.toString() === id) {
+                    selectedCard = card;
                     return {
                       ...card,
                       questions: [
@@ -54,9 +56,10 @@ function AddQuestions(props: Props) {
                   return card;
                 });
                 console.log(updatedCards)
+                navigate(`/questions/${selectedCard.id}`);
                 return updatedCards;
           });
-          navigate(`/questions`);
+          
         }
         if (title.length < 6 && description.length < 6) {
           setSubmitError(true);

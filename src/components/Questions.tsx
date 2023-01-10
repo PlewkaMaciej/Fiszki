@@ -4,17 +4,22 @@ import React, { useState } from "react";
 import ArrowLeft from "../icons/arrowLeft.png"
 import ArrowRight from "../icons/arrowRight.png"
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 interface Props {
   cards: Card[];
-  setCards: (cards: Card[]) => void;
+  
 }
 function Questions(props: Props) {
  
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
   const [whichQuestion, setWhichQuestion] = useState<number>(0);
-  const { cards, setCards } = props;
+  const { cards } = props;
   const navigate = useNavigate();
+  const params = useParams<{ id: string }>();
+  let cardId: number | undefined;
+  if (params.id && !isNaN(Number(params.id))) {
+    cardId = parseInt(params.id);
+  }
   const backToMainMenu = () => {
     navigate("/")
   }
@@ -45,10 +50,10 @@ function Questions(props: Props) {
       {cards.map((singleCard: Card, index) => {
         return (
           <React.Fragment key={index}>
-            {singleCard.isCardAbleToSee &&
+            {singleCard.id===cardId &&
               <>
                 <AddNewQuestionButton onClick={() => {
-                  navigate(`/addQuestions/${index}`);
+                  navigate(`/addQuestions/${cardId}`);
                 }}>Add new question to card</AddNewQuestionButton>
                 <CardContainer >
                   {singleCard.questions.map((questions, index) => (

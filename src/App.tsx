@@ -10,6 +10,7 @@ export interface Card {
   title: string;
   description: string;
   isCardAbleToSee:boolean;
+  id:number,
   questions: {  question: string; answer: string;  }[];
 }
 
@@ -20,6 +21,7 @@ function App() {
       title: "Fiszki Js",
       description: "to jest fiszka do nauki javascript",
       isCardAbleToSee:false,
+      id:new Date().getTime(),
       questions: [
         {
     
@@ -40,10 +42,10 @@ function App() {
       <GlobalStyle />
       <HashRouter>
         <Routes>
-          <Route path="/" element={<MainCards cards={cards} setCards={setCards} />} />
+          <Route path="/" element={<MainCards cards={cards}  />} />
           <Route path="/addNewCard" element={<AddCard cards={cards} setCards={setCards} />} />
-          <Route path="/questions/" element={<Questions cards={cards} setCards={setCards} />} />
-          <Route path="/addQuestions/:id" element={<AddQuestions cards={cards} setCards={setCards} />} />
+          <Route path="/questions/:id" element={<Questions cards={cards}  />} />
+          <Route path="/addQuestions/:id" element={<AddQuestions  setCards={setCards} />} />
         </Routes>
       </HashRouter>
      

@@ -42,6 +42,7 @@ navigate("/")
         title: title,
         description: description,
         isCardAbleToSee:false,
+        id:new Date().getTime(),
         questions: [],
       };
       setCards([...cards, newCard]);
