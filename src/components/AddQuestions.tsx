@@ -1,6 +1,6 @@
 import { Card } from "../App";
 import { useState } from "react";
-import { Input, InputContainer, Container, Label, AddButton, ErrorParagraph } from "../styles/addQuestion/addQuestion";
+import { Input, InputContainer, Container, Label, AddButton, ErrorParagraph ,MainMenuButton} from "../styles/addQuestion/addQuestion";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface Props {
@@ -35,6 +35,9 @@ function AddQuestions(props: Props) {
       }
      
     };
+    const backToMainMenu=()=>{
+      navigate(`/`);
+    }
     const handleSubmit = () => {
         if (title.length >= 6 && description.length >= 6) {
             setCards((prevCards: Card[]) => {
@@ -63,6 +66,7 @@ function AddQuestions(props: Props) {
     <>
       <Container>
         <InputContainer>
+        <MainMenuButton onClick={backToMainMenu}>Back to main menu</MainMenuButton>
           <Label htmlFor="title" >Question&nbsp;{titleError &&<p>{ titleError}</p>  
           }
           

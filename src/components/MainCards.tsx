@@ -9,6 +9,7 @@ interface Props {
 
 }
 function MainCards(props: Props) {
+  
   const location = useLocation();
   useEffect(() => {
     if (location.pathname === '/'){
@@ -33,6 +34,7 @@ function MainCards(props: Props) {
   return (
     <>
       <SecondContainer>
+        
         <BigHeading> Choose your cards or create a new one </BigHeading>
         <AddButton onClick={() => {
           navigate("./addNewCard");

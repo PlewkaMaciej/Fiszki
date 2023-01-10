@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Card } from "../App";
-import { Input, InputContainer, Container, Label, AddButton, ErrorParagraph } from "../styles/addCard/addCardstyles";
+import { Input, InputContainer, Container, Label, AddButton, ErrorParagraph ,MainMenuButton} from "../styles/addCard/addCardstyles";
 import { useNavigate } from "react-router-dom";
 interface Props {
   cards: Card[];
@@ -33,6 +33,9 @@ function AddCard(props: Props) {
     }
    
   };
+  const backToMainMenu= ()=>{
+navigate("/")
+  }
   const handleSubmit = () => {
     if (title.length >= 6 && description.length >= 6) {
       const newCard: Card = {
@@ -54,6 +57,7 @@ setSubmitError(true)
     <>
       <Container>
         <InputContainer>
+        <MainMenuButton onClick={backToMainMenu}>Back to main menu</MainMenuButton>
           <Label htmlFor="title" >Title&nbsp;{titleError &&<p>{ titleError}</p>  
           }
           
