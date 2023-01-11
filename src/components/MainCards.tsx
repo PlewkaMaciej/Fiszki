@@ -1,5 +1,5 @@
 import { Container, SingleCardContainer, Heading, Paragraph, BigHeading, SecondContainer, AddButton } from "../styles/mainCard/mainCardstyles";
-import { Card } from "../App";
+import { Card } from "../types/types";
 import { useNavigate } from "react-router-dom";
 interface Props {
   cards: Card[];

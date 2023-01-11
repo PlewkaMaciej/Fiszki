@@ -1,10 +1,11 @@
-import { Card } from "../App";
+import { Card } from "../types/types";
 import { MainContainer, CardContainer, Heading, Paragraph, ShowAnswerButton, ArrowLeftImg, ArrowRightImg, AddNewQuestionButton, MainMenuButton } from "../styles/question/questionStyles";
 import React, { useState } from "react";
 import ArrowLeft from "../icons/arrowLeft.png"
 import ArrowRight from "../icons/arrowRight.png"
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+
 interface Props {
   cards: Card[];
   
