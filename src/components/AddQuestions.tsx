@@ -39,7 +39,8 @@ function AddQuestions(props: Props) {
     const backToMainMenu=()=>{
       navigate(`/`);
     }
-    const handleSubmit = () => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault()
         if (title.length >= 6 && description.length >= 6) {
             setCards((prevCards: Card[]) => {
                 const updatedCards = prevCards.map((card: Card,index) => {
@@ -55,7 +56,6 @@ function AddQuestions(props: Props) {
                   }
                   return card;
                 });
-                console.log(updatedCards)
                 navigate(`/questions/${selectedCard.id}`);
                 return updatedCards;
           });
@@ -67,23 +67,26 @@ function AddQuestions(props: Props) {
       };
   return (
     <>
+    <MainMenuButton onClick={backToMainMenu}>Back to main menu</MainMenuButton>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <Container>
         <InputContainer>
-        <MainMenuButton onClick={backToMainMenu}>Back to main menu</MainMenuButton>
+        
           <Label htmlFor="title" >Question&nbsp;{titleError &&<p>{ titleError}</p>  
           }
           
           </Label>
-          <Input id="title" onChange={handleTitleChange} value={title} />
+          <Input name="title" id="title" onChange={handleTitleChange} value={title} />
 
           <Label htmlFor="description">Answer&nbsp;{descriptionError&&<p>{descriptionError}</p>}</Label>
-          <Input id="description" onChange={handleDescriptionChange} value={description} />
-          <AddButton onClick={handleSubmit} type="submit">Add new Question</AddButton>
+          <Input name="description" id="description" onChange={handleDescriptionChange} value={description} />
+          <AddButton  type="submit">Add new Question</AddButton>
           {submitError&& <ErrorParagraph>Please fill in the gaps in the form</ErrorParagraph>}
 
         </InputContainer>
 
       </Container>
+      </form>
     </>
 
   );
