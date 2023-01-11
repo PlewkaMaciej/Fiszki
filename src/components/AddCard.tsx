@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { Card } from "../App";
 import { Input, InputContainer, Container, Label, AddButton, ErrorParagraph ,MainMenuButton} from "../styles/addCard/addCardstyles";
 import { useNavigate } from "react-router-dom";
 interface Props {
-  cards: Card[];
-  setCards: (cards: Card[]) => void;
+ 
+  
+  addNewCard:( title:string, description:string)=>void;
 }
 
 function AddCard(props: Props) {
   const navigate = useNavigate();
-  const { cards, setCards } = props;
+ 
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [titleError, setTitleError] = useState<string | null>(null);
@@ -39,15 +39,7 @@ navigate("/")
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (title.length >= 6 && description.length >= 6) {
-      const newCard: Card = {
-        title: title,
-        description: description,
-        isCardAbleToSee:false,
-        id:new Date().getTime(),
-        questions: [],
-        
-      };
-      setCards([...cards, newCard]);
+    props.addNewCard(title,description)
       navigate("/");
     }
     if (title.length < 6 && description.length < 6) {

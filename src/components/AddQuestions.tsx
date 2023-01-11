@@ -1,18 +1,16 @@
-import { Card } from "../App";
 import { useState } from "react";
 import { Input, InputContainer, Container, Label, AddButton, ErrorParagraph ,MainMenuButton} from "../styles/addQuestion/addQuestion";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface Props {
-  
-  setCards: React.Dispatch<React.SetStateAction<Card[]>>;
-  
+  addQuestionToCard:(id:string,  title:string, description:string)=>void;
 }
 function AddQuestions(props: Props) {
-  let selectedCard:Card;
+
+  
     const { id } = useParams();
+    
     const navigate = useNavigate();
-    const {  setCards } = props;
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [titleError, setTitleError] = useState<string | null>(null);
@@ -41,30 +39,14 @@ function AddQuestions(props: Props) {
     }
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault()
-        if (title.length >= 6 && description.length >= 6) {
-            setCards((prevCards: Card[]) => {
-                const updatedCards = prevCards.map((card: Card,index) => {
-                  if (card.id.toString() === id) {
-                    selectedCard = card;
-                    return {
-                      ...card,
-                      questions: [
-                        ...card.questions,
-                        { id:index, question: title, answer: description },
-                      ],
-                    };
-                  }
-                  return card;
-                });
-                navigate(`/questions/${selectedCard.id}`);
-                return updatedCards;
-          });
-          
+        if (title.length >= 6 && description.length >= 6 && id) {
+          props.addQuestionToCard(id, title, description);
+          navigate(`/questions/${id}`);
         }
         if (title.length < 6 && description.length < 6) {
           setSubmitError(true);
         }
-      };
+    };
   return (
     <>
     <MainMenuButton onClick={backToMainMenu}>Back to main menu</MainMenuButton>

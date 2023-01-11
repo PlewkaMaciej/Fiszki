@@ -15,7 +15,6 @@ export interface Card {
 }
 
 function App() {
- 
   const [cards, setCards] = useState<Card[]>([
     {
       title: "Fiszki Js",
@@ -36,16 +35,43 @@ function App() {
       ],
     },
   ]);
- 
+  const addNewCard=(title:string,description:string)=>{
+    const newCard: Card = {
+      title: title,
+      description: description,
+      isCardAbleToSee:false,
+      id:new Date().getTime(),
+      questions: [],
+      
+    };
+    setCards([...cards, newCard]);
+  }
+ const addQuestionToCard=(id: string , title: string, description: string)=>{
+  setCards((prevCards: Card[]) => {
+    const updatedCards = prevCards.map((card: Card,index) => {
+      if (card.id.toString() === id) {
+        return {
+          ...card,
+          questions: [
+            ...card.questions,
+            { id:index, question: title, answer: description },
+          ],
+        };
+      }
+      return card;
+    });
+    return updatedCards;
+});
+ }
   return (
     <>
       <GlobalStyle />
       <HashRouter>
         <Routes>
           <Route path="/" element={<MainCards cards={cards}  />} />
-          <Route path="/addNewCard" element={<AddCard cards={cards} setCards={setCards} />} />
+          <Route path="/addNewCard" element={<AddCard  addNewCard={addNewCard} />} />
           <Route path="/questions/:id" element={<Questions cards={cards}  />} />
-          <Route path="/addQuestions/:id" element={<AddQuestions  setCards={setCards} />} />
+          <Route path="/addQuestions/:id" element={<AddQuestions   addQuestionToCard={addQuestionToCard} />} />
         </Routes>
       </HashRouter>
      
