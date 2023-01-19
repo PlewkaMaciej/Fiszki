@@ -6,20 +6,14 @@ import GlobalStyle from './styles/GlobalStyle';
 import { useState } from 'react';
 import Questions from './components/Questions';
 import AddQuestions from './components/AddQuestions';
-export interface Card {
-  title: string;
-  description: string;
-  isCardAbleToSee:boolean;
-  id:number,
-  questions: {  question: string; answer: string;  }[];
-}
+import { Card } from './types/types';
+
 
 function App() {
   const [cards, setCards] = useState<Card[]>([
     {
       title: "Fiszki Js",
       description: "to jest fiszka do nauki javascript",
-      isCardAbleToSee:false,
       id:new Date().getTime(),
       questions: [
         {
@@ -39,7 +33,6 @@ function App() {
     const newCard: Card = {
       title: title,
       description: description,
-      isCardAbleToSee:false,
       id:new Date().getTime(),
       questions: [],
       
