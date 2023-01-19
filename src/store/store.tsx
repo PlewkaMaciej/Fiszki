@@ -1,4 +1,4 @@
-import create from "zustand";
+ import { create } from'zustand'
 import { Card } from "../types/types";
 interface CardState {
     card: Card[];
@@ -44,7 +44,7 @@ export const useStore = create<CardState>((set) => ({
                         ...card,
                         questions: [
                             ...card.questions,
-                            { id: index, question: title, answer: description },
+                            {  question: title, answer: description },
                         ],
                     };
                 }
