@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { Input, InputContainer, Container, Label, AddButton, ErrorParagraph ,MainMenuButton} from "../styles/addQuestion/addQuestion";
 import { useNavigate, useParams } from "react-router-dom";
+import { useStore } from "../store/Store";
 
-interface Props {
-  addQuestionToCard:(id:string,  title:string, description:string)=>void;
-}
-function AddQuestions(props: Props) {
+function AddQuestions() {
 
   
     const { id } = useParams();
@@ -16,6 +14,7 @@ function AddQuestions(props: Props) {
     const [titleError, setTitleError] = useState<string | null>(null);
     const [descriptionError, setDescriptionError] = useState<string | null>(null);
     const [submitError, setSubmitError] = useState<boolean | null>(null);
+    const addQuestionToCard = useStore((state)=>state.addQuestionToCard)
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setTitle(event.target.value);
       if (event.target.value.length < 6) {
@@ -40,7 +39,7 @@ function AddQuestions(props: Props) {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault()
         if (title.length >= 6 && description.length >= 6 && id) {
-          props.addQuestionToCard(id, title, description);
+          addQuestionToCard(id, title, description);
           navigate(`/questions/${id}`);
         }
         if (title.length < 6 && description.length < 6) {

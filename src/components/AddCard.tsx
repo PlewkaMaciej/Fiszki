@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { Input, InputContainer, Container, Label, AddButton, ErrorParagraph ,MainMenuButton} from "../styles/addCard/addCardstyles";
 import { useNavigate } from "react-router-dom";
-interface Props {
- 
-  
-  addNewCard:( title:string, description:string)=>void;
-}
+import { useStore } from "../store/Store";
 
-function AddCard(props: Props) {
+
+function AddCard() {
   const navigate = useNavigate();
  
   const [title, setTitle] = useState<string>("");
@@ -15,6 +12,7 @@ function AddCard(props: Props) {
   const [titleError, setTitleError] = useState<string | null>(null);
   const [descriptionError, setDescriptionError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<boolean | null>(null);
+  const addNewCard = useStore((state)=>state.addNewCard)
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     if (event.target.value.length < 6) {
@@ -39,7 +37,7 @@ navigate("/")
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (title.length >= 6 && description.length >= 6) {
-    props.addNewCard(title,description)
+      addNewCard(title,description)
       navigate("/");
     }
     if (title.length < 6 && description.length < 6) {

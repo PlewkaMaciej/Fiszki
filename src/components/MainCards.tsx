@@ -1,14 +1,11 @@
 import { Container, SingleCardContainer, Heading, Paragraph, BigHeading, SecondContainer, AddButton } from "../styles/mainCard/mainCardstyles";
 import { Card } from "../types/types";
 import { useNavigate } from "react-router-dom";
-interface Props {
-  cards: Card[];
+import { useStore } from "../store/Store";
 
-}
-function MainCards(props: Props) {
-  
+function MainCards() {
+  const card = useStore((state)=>state.card)
   const navigate = useNavigate();
-  const { cards} = props;
   const checkWhatCardIClicked = (singleCard: Card) => {
     navigate(`/questions/${singleCard.id}`);
     
@@ -25,7 +22,7 @@ function MainCards(props: Props) {
 
       </SecondContainer>
       <Container>
-        {cards.map((singleCard, index) => {
+        {card.map((singleCard, index) => {
           return (
             <SingleCardContainer
               key={index}

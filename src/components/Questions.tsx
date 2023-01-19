@@ -5,16 +5,13 @@ import ArrowLeft from "../icons/arrowLeft.png"
 import ArrowRight from "../icons/arrowRight.png"
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { useStore } from "../store/Store";
 
-interface Props {
-  cards: Card[];
-  
-}
-function Questions(props: Props) {
+function Questions() {
  
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
   const [whichQuestion, setWhichQuestion] = useState<number>(0);
-  const { cards } = props;
+  const card = useStore((state)=>state.card)
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
   let cardId: number | undefined;
@@ -48,7 +45,7 @@ function Questions(props: Props) {
 
 
       <MainMenuButton onClick={backToMainMenu}>Back to main menu</MainMenuButton>
-      {cards.map((singleCard: Card, index) => {
+      {card.map((singleCard: Card, index) => {
         return (
           <React.Fragment key={index}>
             {singleCard.id===cardId &&
