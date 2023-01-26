@@ -1,28 +1,20 @@
- import { create } from'zustand'
+import { create } from 'zustand'
+import { getData } from '../GetApi/GetApi';
 import { Card } from "../types/types";
 interface CardState {
     card: Card[];
     addNewCard: (title: string, description: string) => void;
     addQuestionToCard: (id: string, title: string, description: string) => void;
+    fetch: () => void;
 }
+
 export const useStore = create<CardState>((set) => ({
-    card: [{
-        title: "Fiszki Js",
-        description: "to jest fiszka do nauki javascript",
-        id:new Date().getTime(),
-        questions: [
-          {
-      
-            question: "czy warto sie uczyc js",
-            answer: "tak warto",
-          },
-          {
-           
-            question:"trtrtrtr",
-            answer:"trtrtr",
-          }
-        ],
-      },],
+    fetch: () => {
+        getData().then((datas:Card[]) => {
+            set({ card: datas });
+        })
+    },
+    card: [],
     addNewCard: (title: string, description: string) => {
         set((state) => ({
             card: [
@@ -30,7 +22,7 @@ export const useStore = create<CardState>((set) => ({
                 {
                     title: title,
                     description: description,
-                    id: new Date().getTime(),
+                    id: new Date().getTime().toString(),
                     questions: [],
                 } as Card,
             ]
@@ -38,13 +30,13 @@ export const useStore = create<CardState>((set) => ({
     },
     addQuestionToCard: (id: string, title: string, description: string) => {
         set((state) => ({
-            card:state.card.map((card: Card, index)=>{
+            card: state.card.map((card: Card, index) => {
                 if (card.id.toString() === id) {
                     return {
                         ...card,
                         questions: [
                             ...card.questions,
-                            {  question: title, answer: description },
+                            { question: title, answer: description },
                         ],
                     };
                 }

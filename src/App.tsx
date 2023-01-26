@@ -7,9 +7,8 @@ import Questions from './components/Questions';
 import AddQuestions from './components/AddQuestions';
 
 
-
 function App() {
- 
+
   return (
     <>
       <GlobalStyle />

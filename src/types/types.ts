@@ -1,6 +1,8 @@
 export interface Card {
     title: string;
     description: string;
-    id:number,
+    id:string,
     questions: {  question: string; answer: string;  }[];
   }
+ 
+  

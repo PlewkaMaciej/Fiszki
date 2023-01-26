@@ -6,17 +6,21 @@ import ArrowRight from "../icons/arrowRight.png"
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useStore } from "../store/Store";
-
+import { useEffect } from "react";
 function Questions() {
  
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
   const [whichQuestion, setWhichQuestion] = useState<number>(0);
   const card = useStore((state)=>state.card)
+  const fetch = useStore((state) => state.fetch)
   const navigate = useNavigate();
+  useEffect(()=>{
+    fetch()
+    },[fetch])  
   const params = useParams<{ id: string }>();
-  let cardId: number | undefined;
-  if (params.id && !isNaN(Number(params.id))) {
-    cardId = parseInt(params.id);
+  let cardId: string | undefined;
+  if (params.id ) {
+    cardId = params.id;
   }
   const backToMainMenu = () => {
     navigate("/")
@@ -48,14 +52,14 @@ function Questions() {
       {card.map((singleCard: Card, index) => {
         return (
           <React.Fragment key={index}>
-            {singleCard.id===cardId &&
+            {singleCard.id===cardId&&
               <>
                 <AddNewQuestionButton onClick={() => {
                   navigate(`/addQuestions/${cardId}`);
                 }}>Add new question to card</AddNewQuestionButton>
                 <CardContainer >
                   {singleCard.questions.map((questions, index) => (
-                    <>
+                    <React.Fragment key={index}>
                       {whichQuestion < index &&
                         <ArrowRightImg onClick={increaseQuestion} src={ArrowRight} alt="arrowRight" />
                       }
@@ -76,7 +80,7 @@ function Questions() {
                           }
                         </>
                       }
-                    </>
+                    </React.Fragment>
                   ))}
                 </CardContainer>
               </>
