@@ -21,11 +21,14 @@ export const Container = styled.div`
 `
 export const SecondContainer= styled.div`
 display:flex;
-justify-content:center;
 background-color: #131A22;
 flex-direction:column;
 align-items:center;
 `
+export const MainContainer= styled.div`
+background-color: #131A22;
+`
+
 
 
 export const SingleCardContainer = styled.div`

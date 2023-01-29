@@ -51,7 +51,7 @@ transition: box-shadow 0.2s infinite;
 export const Heading = styled.h2`
 font-size:32px; color: #00b0ff;  min-width:500px; max-height:50px: font-weight:600; border-bottom: 1px solid #00b0ff;
 position:absolute;
-bottom:80%;
+bottom:75%;
 `
 export const Paragraph = styled.p`
 font-size:16px;

@@ -1,10 +1,11 @@
-import { Container, SingleCardContainer, Heading, Paragraph, BigHeading, SecondContainer, AddButton } from "../styles/mainCard/mainCardstyles";
-import { Card } from "../types/types";
+import {  SingleCardContainer, Heading, Paragraph, BigHeading, SecondContainer,  MainContainer} from "./mainCardstyles";
+import {  Container,  AddButton,  } from "../../styles/commonStyles";
+import { Card } from "../../types/types";
 import { useNavigate } from "react-router-dom";
-import { useStore } from "../store/Store";
+import { useStore } from "../../store/Store";
 import { useEffect } from "react";
-
-
+import { useState } from "react";
+import Nav from "../Navigation/Nav";
 
 function MainCards() {
   const card = useStore((state) => state.card)
@@ -17,16 +18,18 @@ function MainCards() {
 useEffect(()=>{
 fetch()
 },[fetch])  
+
   return (
     <>
-      <SecondContainer>
-
+      <MainContainer>
+<Nav/>
+<SecondContainer>
         <BigHeading> Choose your cards or create a new one </BigHeading>
         <AddButton onClick={() => {
           navigate(`./addNewCard`);
         }}>Add new card</AddButton>
-
-      </SecondContainer>
+</SecondContainer>
+      
       <Container>
         {card.map((singleCard, index) => {
           return (
@@ -40,6 +43,7 @@ fetch()
           )
         })}
       </Container>
+      </MainContainer>
     </>
   );
 }

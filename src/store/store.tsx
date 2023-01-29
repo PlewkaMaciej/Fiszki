@@ -10,7 +10,7 @@ interface CardState {
 
 export const useStore = create<CardState>((set) => ({
     fetch: () => {
-        getData().then((datas:Card[]) => {
+        getData().then((datas) => {
             set({ card: datas });
         })
     },

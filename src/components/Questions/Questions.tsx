@@ -1,12 +1,14 @@
-import { Card } from "../types/types";
-import { MainContainer, CardContainer, Heading, Paragraph, ShowAnswerButton, ArrowLeftImg, ArrowRightImg, AddNewQuestionButton, MainMenuButton } from "../styles/question/questionStyles";
+import { Card } from "../../types/types";
+import { MainContainer, CardContainer, Heading, Paragraph, ShowAnswerButton, ArrowLeftImg, ArrowRightImg, AddNewQuestionButton,  } from "./questionStyles";
+import {  MainMenuButton, } from "../../styles/commonStyles";
 import React, { useState } from "react";
-import ArrowLeft from "../icons/arrowLeft.png"
-import ArrowRight from "../icons/arrowRight.png"
+import ArrowLeft from "../../icons/arrowLeft.png"
+import ArrowRight from "../../icons/arrowRight.png"
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useStore } from "../store/Store";
+import { useStore } from "../../store/Store";
 import { useEffect } from "react";
+import Nav from "../Navigation/Nav";
 function Questions() {
  
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
@@ -45,6 +47,8 @@ function Questions() {
     setShowAnswer(false)
   }
   return (
+    <>
+    <Nav/>
     <MainContainer>
 
 
@@ -91,6 +95,7 @@ function Questions() {
       })}
 
     </MainContainer>
+    </>
   );
 }
 

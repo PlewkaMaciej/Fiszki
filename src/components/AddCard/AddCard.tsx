@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Input, InputContainer, Container, Label, AddButton, ErrorParagraph ,MainMenuButton} from "../styles/addCard/addCardstyles";
+import { Input, InputContainer, Container, Label, AddButton, ErrorParagraph, MainMenuButton, } from "../../styles/commonStyles";
 import { useNavigate } from "react-router-dom";
-import { useStore } from "../store/Store";
+import { useStore } from "../../store/Store";
+import Nav from "../Navigation/Nav";
 
 
 function AddCard() {
@@ -48,8 +49,9 @@ setSubmitError(true)
   return (
 
     <>
+    <Nav/>
     <MainMenuButton  onClick={backToMainMenu}>Back to main menu</MainMenuButton>
-    <form onSubmit={(e) => handleSubmit(e)}>
+    <form onSubmit={ handleSubmit}>
       <Container>
         <InputContainer>
         
