@@ -1,10 +1,8 @@
-import {  SingleCardContainer, Heading, Paragraph, BigHeading, SecondContainer,  MainContainer} from "./mainCardstyles";
-import {  Container,  AddButton,  } from "../../styles/commonStyles";
+import {  SingleCardContainer, Heading, Paragraph, BigHeading, SecondContainer,  MainContainer,Container,  AddButton, } from "./mainCardstyles";
 import { Card } from "../../types/types";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../store/Store";
 import { useEffect } from "react";
-import { useState } from "react";
 import Nav from "../Navigation/Nav";
 
 function MainCards() {

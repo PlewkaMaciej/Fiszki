@@ -1,6 +1,8 @@
 import { create } from 'zustand'
 import { getData } from '../GetApi/GetApi';
 import { Card } from "../types/types";
+import { setDoc, doc } from 'firebase/firestore';
+import { db } from '../FirebaseConfig/FirebaseConfig';
 interface CardState {
     card: Card[];
     addNewCard: (title: string, description: string) => void;
@@ -16,17 +18,25 @@ export const useStore = create<CardState>((set) => ({
     },
     card: [],
     addNewCard: (title: string, description: string) => {
-        set((state) => ({
-            card: [
-                ...state.card,
-                {
-                    title: title,
-                    description: description,
-                    id: new Date().getTime().toString(),
-                    questions: [],
-                } as Card,
-            ]
-        }))
+        set((state) => {
+            const newCard: Card = {
+                title,
+                description,
+                id: new Date().getTime().toString(),
+                questions: []
+            };
+            setDoc(doc(db, "Card", newCard.id), {
+                Card: {
+                    title: newCard.title,
+                    description: newCard.description,
+                    questions: newCard.questions
+                }
+            });
+            return {
+                ...state,
+                card: [...state.card, newCard]
+            };
+        });
     },
     addQuestionToCard: (id: string, title: string, description: string) => {
         set((state) => ({

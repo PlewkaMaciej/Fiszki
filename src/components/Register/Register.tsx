@@ -3,7 +3,7 @@ import { Input, InputContainer, Container, Label, AddButton, ErrorParagraph, Mai
 import { useNavigate } from "react-router-dom";
 import { db } from "../../FirebaseConfig/FirebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
+import { getAuth, createUserWithEmailAndPassword,updateProfile } from "firebase/auth"
 function Register() {
 
 
@@ -51,6 +51,12 @@ function Register() {
                     .then((userCredential) => {
                         const user = userCredential.user;
                         if (user) {
+                            updateProfile(user, {
+                                displayName: nickname
+                              })
+                            
+                               
+                           
                             setDoc(doc(db, "users", user.uid), {
                                 email: email,
                                 nickname: nickname,
@@ -85,7 +91,7 @@ function Register() {
                         <Label htmlFor="nickname">Nickname&nbsp;{nicknameError && <p>{nicknameError}</p>}</Label>
                         <Input name="nickname" id="nickname" onChange={handleNicknameChange} value={nickname} />
                         <AddButton type="submit">Register</AddButton>
-                        {submitError && <ErrorParagraph>Please fill in the gaps in the form</ErrorParagraph>}
+                        {submitError && <ErrorParagraph>Please fill in the gaps in the form with the right number of characters</ErrorParagraph>}
 
                     </InputContainer>
 

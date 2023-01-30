@@ -64,7 +64,7 @@ setSubmitError(true)
           <Label htmlFor="description">Description&nbsp;{descriptionError&&<p>{descriptionError}</p>}</Label>
           <Input id="description" onChange={handleDescriptionChange} value={description} />
           <AddButton  type="submit">Add Card</AddButton>
-          {submitError&& <ErrorParagraph>Please fill in the gaps in the form</ErrorParagraph>}
+          {submitError&& <ErrorParagraph>Please fill in the gaps in the form with the right number of characters</ErrorParagraph>}
 
         </InputContainer>
 

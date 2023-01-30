@@ -64,7 +64,7 @@ function AddQuestions() {
             <Label htmlFor="description">Answer&nbsp;{descriptionError && <p>{descriptionError}</p>}</Label>
             <Input name="description" id="description" onChange={handleDescriptionChange} value={description} />
             <AddButton type="submit">Add new Question</AddButton>
-            {submitError && <ErrorParagraph>Please fill in the gaps in the form</ErrorParagraph>}
+            {submitError && <ErrorParagraph>Please fill in the gaps in the form with the right number of characters</ErrorParagraph>}
 
           </InputContainer>
 
