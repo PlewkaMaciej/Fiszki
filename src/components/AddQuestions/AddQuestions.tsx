@@ -6,7 +6,7 @@ import Nav from "../Navigation/Nav";
 
 function AddQuestions() {
 
-
+  const card = useStore((state) => state.card)
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ function AddQuestions() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (title.length >= 6 && description.length >= 6 && id) {
-      addQuestionToCard(id, title, description);
+      addQuestionToCard(id, title, description,card);
       navigate(`/questions/${id}`);
     }
     if (title.length < 6 && description.length < 6) {

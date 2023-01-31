@@ -14,22 +14,26 @@ function Login() {
 
     const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
-        
+
     };
     const backToMainMenu = () => {
         navigate(`/`);
     }
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        
-            const auth = getAuth();
-            signInWithEmailAndPassword(auth, email, password).then(() => {
-                navigate('/')
-            })
-                .catch(() => {
+
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, email, password).then(() => {
+            navigate('/')
+        })
+            .catch((e) => {
+                if (e.message === "Firebase: Error (auth/user-not-found).") {
+
+
                     setErrorMessage("The user with the specified data does not exist")
                     setDataError(true)
-                });
+                }
+            });
     };
     return (
         <>
@@ -47,13 +51,13 @@ function Login() {
                         <Label htmlFor="password">Password</Label>
                         <Input type="password" name="password" id="password" onChange={handleDescriptionChange} value={password} />
                         <AddButton type="submit">Sign In</AddButton>
-    
-                        {submitDataError&&
-                    <ErrorParagraph>{errorMessage}</ErrorParagraph>
 
-                    }
+                        {submitDataError &&
+                            <ErrorParagraph>{errorMessage}</ErrorParagraph>
+
+                        }
                     </InputContainer>
-                    
+
                 </Container>
             </form>
         </>

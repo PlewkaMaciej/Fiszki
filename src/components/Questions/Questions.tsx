@@ -31,6 +31,7 @@ function Questions() {
   const showAnswerFunction = () => {
     if (!showAnswer) {
       setShowAnswer(true)
+      console.log(card)
     }
     else (
       setShowAnswer(false)
