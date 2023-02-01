@@ -1,6 +1,5 @@
-import { Card } from "../../types/types";
-import { MainContainer, CardContainer, Heading, Paragraph, ShowAnswerButton, ArrowLeftImg, ArrowRightImg, AddNewQuestionButton,  } from "./questionStyles";
-import {  MainMenuButton, } from "../../styles/commonStyles";
+import { MainContainer, CardContainer, Heading, Paragraph, ShowAnswerButton, ArrowLeftImg, ArrowRightImg, AddNewQuestionButton, } from "./questionStyles";
+import { MainMenuButton, } from "../../styles/commonStyles";
 import React, { useState } from "react";
 import ArrowLeft from "../../icons/arrowLeft.png"
 import ArrowRight from "../../icons/arrowRight.png"
@@ -9,29 +8,32 @@ import { useParams } from "react-router-dom";
 import { useStore } from "../../store/Store";
 import { useEffect } from "react";
 import Nav from "../Navigation/Nav";
+import { ObjectOfCards } from "../../types/types";
 function Questions() {
- 
+
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
   const [whichQuestion, setWhichQuestion] = useState<number>(0);
-  const card = useStore((state)=>state.card)
+  const cards = useStore((state) => state.cards) as ObjectOfCards;
+
   const fetch = useStore((state) => state.fetch)
-  const navigate = useNavigate();
-  useEffect(()=>{
-    fetch()
-    },[fetch])  
   const params = useParams<{ id: string }>();
-  let cardId: string | undefined;
+  let cardId: string =""
   if (params.id ) {
     cardId = params.id;
   }
+  const navigate = useNavigate();
+  useEffect(() => {
+    fetch()
+  }, [fetch])
+
   const backToMainMenu = () => {
     navigate("/")
   }
- 
+
   const showAnswerFunction = () => {
     if (!showAnswer) {
       setShowAnswer(true)
-      console.log(card)
+      console.log(cards)
     }
     else (
       setShowAnswer(false)
@@ -40,7 +42,8 @@ function Questions() {
   const increaseQuestion = () => {
     setWhichQuestion(whichQuestion + 1)
     setShowAnswer(false)
-
+console.log(cards[cardId].questions.length)
+console.log(whichQuestion)
 
   }
   const decreaseQuestion = () => {
@@ -49,53 +52,51 @@ function Questions() {
   }
   return (
     <>
-    <Nav/>
-    <MainContainer>
+      <Nav />
+      <MainContainer>
 
 
-      <MainMenuButton onClick={backToMainMenu}>Back to main menu</MainMenuButton>
-      {card.map((singleCard: Card, index) => {
-        return (
-          <React.Fragment key={index}>
-            {singleCard.id===cardId&&
+        <MainMenuButton onClick={backToMainMenu}>Back to main menu</MainMenuButton>
+            <React.Fragment>
               <>
+             
                 <AddNewQuestionButton onClick={() => {
                   navigate(`/addQuestions/${cardId}`);
                 }}>Add new question to card</AddNewQuestionButton>
                 <CardContainer >
-                  {singleCard.questions.map((questions, index) => (
-                    <React.Fragment key={index}>
-                      {whichQuestion < index &&
-                        <ArrowRightImg onClick={increaseQuestion} src={ArrowRight} alt="arrowRight" />
+                  
+                  {cards[cardId].questions.length>0&&
+<>
+                  
+                    <Heading>{cards[cardId].questions[whichQuestion].question}</Heading>
+                    {!showAnswer&&
+                     <ShowAnswerButton onClick={showAnswerFunction}>ShowAnswer</ShowAnswerButton>
+
+                 }
+                 {showAnswer&&
+                 <>
+                  <Paragraph>{cards[cardId].questions[whichQuestion].answer}</Paragraph>
+                  <ShowAnswerButton onClick={showAnswerFunction}>Hide Answer</ShowAnswerButton>
+                  </>
+                 }
+                      {whichQuestion !==0 &&
+                      <ArrowLeftImg onClick={decreaseQuestion} src={ArrowLeft} alt="arrowLeft" />
                       }
-                      {whichQuestion !== 0 &&
-                        <ArrowLeftImg onClick={decreaseQuestion} src={ArrowLeft} alt="arrowLeft" />
+                     
+                      {whichQuestion < cards[cardId].questions.length - 1  &&
+                       <ArrowRightImg onClick={increaseQuestion} src={ArrowRight} alt="arrowRight" />
                       }
-                      {whichQuestion === index &&
-                        <>
-                          <Heading>{questions.question}</Heading>
-                          {!showAnswer &&
-                            <ShowAnswerButton onClick={showAnswerFunction}>Show Answer</ShowAnswerButton>
-                          }
-                          {showAnswer &&
-                            <>
-                              <Paragraph>{questions.answer}</Paragraph>
-                              <ShowAnswerButton onClick={showAnswerFunction}>Hide Answer</ShowAnswerButton>
-                            </>
-                          }
-                        </>
-                      }
-                    </React.Fragment>
-                  ))}
+                  </>
+                    }
                 </CardContainer>
               </>
-            }
 
-          </React.Fragment>
-        )
-      })}
 
-    </MainContainer>
+            </React.Fragment>
+          
+       
+
+      </MainContainer>
     </>
   );
 }

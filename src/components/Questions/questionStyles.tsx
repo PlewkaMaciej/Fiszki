@@ -63,7 +63,7 @@ position:relative;
 `
 export const ShowAnswerButton = styled.button`
   background: linear-gradient(to right, #00b0ff, #0091ea);
-  width: 100px;
+  width: 150px;
   height: 50px;
   border: none;
   border-radius: 5px;
@@ -73,7 +73,7 @@ export const ShowAnswerButton = styled.button`
   padding: 10px 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.2s infinite, transform 0.2s infinite;
-
+margin-top:5%;
   &:hover {
     cursor: pointer;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);

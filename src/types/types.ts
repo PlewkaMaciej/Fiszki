@@ -4,5 +4,4 @@ export interface Card {
     id:string,
     questions: {  question: string; answer: string;  }[];
   }
- 
-  
+  export interface ObjectOfCards {[key: string]: Card}

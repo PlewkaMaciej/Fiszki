@@ -3,7 +3,7 @@ import { Input, InputContainer, Container, Label, AddButton, ErrorParagraph, Mai
 import { useNavigate } from "react-router-dom";
 import { db } from "../../FirebaseConfig/FirebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword,updateProfile } from "firebase/auth"
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 function Register() {
 
 
@@ -53,10 +53,7 @@ function Register() {
                         if (user) {
                             updateProfile(user, {
                                 displayName: nickname
-                              })
-                            
-                               
-                           
+                            })
                             setDoc(doc(db, "users", user.uid), {
                                 email: email,
                                 nickname: nickname,
@@ -64,7 +61,7 @@ function Register() {
                             navigate('/')
                         }
                     })
-               
+
             } catch (error) {
                 console.error(error);
             }

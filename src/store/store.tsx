@@ -4,24 +4,30 @@ import { Card } from "../types/types";
 import { setDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../FirebaseConfig/FirebaseConfig';
 interface CardState {
-    card: Card[];
+    cards:{
+
+    };
     addNewCard: (title: string, description: string) => void;
     addQuestionToCard: (id: string, title: string, description: string, clickedCard: Card[]) => void;
     fetch: () => void;
     isUserLoggedIn: boolean,
+    
     setUserLoginIn:()=>void,
+    
 }
 
 export const useStore = create<CardState>((set) => ({
-    
+   
     isUserLoggedIn:false,
     setUserLoginIn: () => set((state) => ({ ...state, isUserLoggedIn: true })),
+    
     fetch: () => {
         getData().then((datas) => {
-            set({ card: datas });
+            console.log(datas)
+            set({ cards: datas });
         })
     },
-    card: [],
+    cards: {},
     addNewCard: async (title: string, description: string) => {
         const newCard: Card = {
             title,
@@ -43,16 +49,17 @@ export const useStore = create<CardState>((set) => ({
         }
     },
     addQuestionToCard: async (id: string, title: string, description: string, clickedCard) => {
-       
-        const cardId = clickedCard.findIndex((card: Card) => card.id === id);
-        const updatedCard = { ...clickedCard[cardId], questions: [...clickedCard[cardId].questions, { question: title, answer: description }] };
-        set((state) => ({
-            ...state,
-            card: [...state.card.slice(0, cardId), updatedCard, ...state.card.slice(cardId + 1)],
-        }));
-        await updateDoc(doc(db, "Card", id), {
-            Card: updatedCard
-        });
+        // const cardId = clickedCard.findIndex((card: Card) => card.id === id);
+        // const updatedCard = { ...clickedCard[cardId], questions: [...clickedCard[cardId].questions, { question: title, answer: description }] };
+        
+        // set((state) => ({
+        //     ...state,
+            
+        //     cards: [...state.card.slice(0, cardId), updatedCard, ...state.card.slice(cardId + 1)],
+        // }));
+        // await updateDoc(doc(db, "Card", id), {
+        //     Card: updatedCard
+        // });
     },
 }))
 
