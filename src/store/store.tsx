@@ -26,30 +26,26 @@ export const useStore = create<CardState>((set) => ({
     fetch: () => {
         getData().then((datas) => {
             set({ cards: datas });
+            console.log(datas)
         })
     },
     cards: {},
     addNewCard: async (title: string, description: string, idLoggedUser) => {
-        const newCard: Card = {
-            title,
-            description,
-            id: new Date().getTime().toString(),
-            questions: [],
-            Userid: idLoggedUser,
-        };
+        const id = new Date().getTime().toString();
+      
         try {
-            await setDoc(doc(db, "Card", newCard.id), {
-                Card: {
-                    title: newCard.title,
-                    description: newCard.description,
-                    questions: newCard.questions,
-                    Userid: idLoggedUser,
-                }
-            });
+          await setDoc(doc(db, "Card", id), {
+            Card: {
+              title: title,
+              description: description,
+              questions: [],
+              Userid: idLoggedUser,
+            },
+          });
         } catch (error) {
-            console.log(error);
+          console.log(error);
         }
-    },
+      },
     addQuestionToCard: async (id: string, title: string, description: string, clickedCard) => {
 
         const updatedCard = { ...clickedCard, questions: [...clickedCard.questions, { question: title, answer: description }] };
