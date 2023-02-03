@@ -77,6 +77,15 @@ position:relative;
 bottom:10%
 
 `
+export const Paragraph2= styled.p`
+font-size:16px;
+max-width:300px;
+max-height:120px;
+color:white;
+font-weight:550;
+
+
+`
 export const BigHeading = styled.h1`
 font-size:64px;
 color:white;

@@ -3,6 +3,7 @@ import { Input, InputContainer, Container, Label, AddButton, ErrorParagraph, Mai
 import { useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 function Login() {
+
     const navigate = useNavigate();
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -11,7 +12,6 @@ function Login() {
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
     };
-
     const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
 

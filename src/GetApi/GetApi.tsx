@@ -1,6 +1,6 @@
 import { collection, query, getDocs, } from "firebase/firestore";
 import { db } from "../FirebaseConfig/FirebaseConfig";
-import { Card} from "../types/types";
+import { Card } from "../types/types";
 import { ObjectOfCards } from "../types/types";
 
 export const getData = async (): Promise<{}> => {
@@ -14,10 +14,10 @@ export const getData = async (): Promise<{}> => {
             ...doc.data().Card,
             id: doc.id
         }
-      objectOfCards[doc.id]=card
+        objectOfCards[doc.id] = card
     })
-   
+
     return objectOfCards
 }
-   
+
 

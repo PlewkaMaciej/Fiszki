@@ -3,28 +3,34 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useStore } from "../../store/Store";
 
 function Nav() {
   const navigate = useNavigate();
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>(true);
+
   const [currentUserNickname, setCurrentUserNickname] = useState<string | null>(null);
+  const isUserLoggedIn = useStore((state) => state.isUserLoggedIn)
+  const setUserLoginIn = useStore((state) => state.setUserLoginIn)
+
+  const setUserIdLoggedIn = useStore((state) => state.setUserIdLoggedIn)
   const auth = getAuth();
   useEffect(() => {
-
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setIsUserLoggedIn(true)
+        setUserIdLoggedIn(user.uid)
+        setUserLoginIn(true)
         setCurrentUserNickname(user.displayName)
       } else {
-        setIsUserLoggedIn(false)
+        setUserLoginIn(false)
+        setUserIdLoggedIn("")
       }
     });
-
-  }, [auth])
-const logout=()=>{
-  auth.signOut();
-}
-
+  }, [auth, setUserIdLoggedIn, setUserLoginIn])
+  const logout = () => {
+    setUserIdLoggedIn("")
+    setUserLoginIn(false)
+    auth.signOut();
+  }
 
   return (
     <>
@@ -33,10 +39,10 @@ const logout=()=>{
           {isUserLoggedIn === false &&
             <>
               <Button onClick={() => {
-                navigate(`./login`);
+                navigate(`/login`);
               }}>Log In</Button>
               <Button onClick={() => {
-                navigate(`./register`);
+                navigate(`/register`);
               }}>Register</Button>
             </>
           }

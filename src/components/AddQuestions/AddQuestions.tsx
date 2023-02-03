@@ -3,12 +3,12 @@ import { Input, InputContainer, Container, Label, AddButton, ErrorParagraph, Mai
 import { useNavigate, useParams } from "react-router-dom";
 import { useStore } from "../../store/Store";
 import Nav from "../Navigation/Nav";
-
+import { ObjectOfCards } from "../../types/types";
 function AddQuestions() {
 
-  const cards = useStore((state) => state.cards)
-  const { id } = useParams();
 
+  const { id } = useParams();
+  const cards = useStore((state) => state.cards) as ObjectOfCards;
   const navigate = useNavigate();
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -40,7 +40,7 @@ function AddQuestions() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (title.length >= 6 && description.length >= 6 && id) {
-      // addQuestionToCard(id, title, description,cards);
+      addQuestionToCard(id, title, description, cards[id]);
       navigate(`/questions/${id}`);
     }
     if (title.length < 6 && description.length < 6) {
@@ -49,9 +49,9 @@ function AddQuestions() {
   };
   return (
     <>
-    <Nav/>
+      <Nav />
       <MainMenuButton onClick={backToMainMenu}>Back to main menu</MainMenuButton>
-      <form onSubmit={  handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <Container>
           <InputContainer>
 

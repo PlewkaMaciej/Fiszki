@@ -14,11 +14,11 @@ function Questions() {
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
   const [whichQuestion, setWhichQuestion] = useState<number>(0);
   const cards = useStore((state) => state.cards) as ObjectOfCards;
-
+  const userIdLoggedUser = useStore((state) => state.idLoggedUser)
   const fetch = useStore((state) => state.fetch)
   const params = useParams<{ id: string }>();
-  let cardId: string =""
-  if (params.id ) {
+  let cardId: string = ""
+  if (params.id) {
     cardId = params.id;
   }
   const navigate = useNavigate();
@@ -33,7 +33,6 @@ function Questions() {
   const showAnswerFunction = () => {
     if (!showAnswer) {
       setShowAnswer(true)
-      console.log(cards)
     }
     else (
       setShowAnswer(false)
@@ -42,8 +41,6 @@ function Questions() {
   const increaseQuestion = () => {
     setWhichQuestion(whichQuestion + 1)
     setShowAnswer(false)
-console.log(cards[cardId].questions.length)
-console.log(whichQuestion)
 
   }
   const decreaseQuestion = () => {
@@ -57,44 +54,48 @@ console.log(whichQuestion)
 
 
         <MainMenuButton onClick={backToMainMenu}>Back to main menu</MainMenuButton>
-            <React.Fragment>
-              <>
-             
+        {cards[cardId] &&
+          <React.Fragment>
+            <>
+              {userIdLoggedUser === cards[cardId].Userid &&
+
                 <AddNewQuestionButton onClick={() => {
                   navigate(`/addQuestions/${cardId}`);
                 }}>Add new question to card</AddNewQuestionButton>
-                <CardContainer >
-                  
-                  {cards[cardId].questions.length>0&&
-<>
-                  
+              }
+
+              <CardContainer >
+
+                {cards[cardId].questions.length > 0 &&
+                  <>
+
                     <Heading>{cards[cardId].questions[whichQuestion].question}</Heading>
-                    {!showAnswer&&
-                     <ShowAnswerButton onClick={showAnswerFunction}>ShowAnswer</ShowAnswerButton>
+                    {!showAnswer &&
+                      <ShowAnswerButton onClick={showAnswerFunction}>ShowAnswer</ShowAnswerButton>
 
-                 }
-                 {showAnswer&&
-                 <>
-                  <Paragraph>{cards[cardId].questions[whichQuestion].answer}</Paragraph>
-                  <ShowAnswerButton onClick={showAnswerFunction}>Hide Answer</ShowAnswerButton>
-                  </>
-                 }
-                      {whichQuestion !==0 &&
-                      <ArrowLeftImg onClick={decreaseQuestion} src={ArrowLeft} alt="arrowLeft" />
-                      }
-                     
-                      {whichQuestion < cards[cardId].questions.length - 1  &&
-                       <ArrowRightImg onClick={increaseQuestion} src={ArrowRight} alt="arrowRight" />
-                      }
-                  </>
                     }
-                </CardContainer>
-              </>
+                    {showAnswer &&
+                      <>
+                        <Paragraph>{cards[cardId].questions[whichQuestion].answer}</Paragraph>
+                        <ShowAnswerButton onClick={showAnswerFunction}>Hide Answer</ShowAnswerButton>
+                      </>
+                    }
+                    {whichQuestion !== 0 &&
+                      <ArrowLeftImg onClick={decreaseQuestion} src={ArrowLeft} alt="arrowLeft" />
+                    }
+
+                    {whichQuestion < cards[cardId].questions.length - 1 &&
+                      <ArrowRightImg onClick={increaseQuestion} src={ArrowRight} alt="arrowRight" />
+                    }
+                  </>
+                }
+              </CardContainer>
+            </>
 
 
-            </React.Fragment>
-          
-       
+          </React.Fragment>
+        }
+
 
       </MainContainer>
     </>

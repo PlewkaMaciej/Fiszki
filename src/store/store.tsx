@@ -4,36 +4,38 @@ import { Card } from "../types/types";
 import { setDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../FirebaseConfig/FirebaseConfig';
 interface CardState {
-    cards:{
+    cards: {
 
     };
-    addNewCard: (title: string, description: string) => void;
-    addQuestionToCard: (id: string, title: string, description: string, clickedCard: Card[]) => void;
+    addNewCard: (title: string, description: string, userIdLoggedIn: string) => void;
+    addQuestionToCard: (id: string, title: string, description: string, clickedCard: Card) => void;
     fetch: () => void;
-    isUserLoggedIn: boolean,
-    
-    setUserLoginIn:()=>void,
-    
+    isUserLoggedIn: boolean | null,
+    idLoggedUser: string,
+    setUserIdLoggedIn: (value: string) => void,
+    setUserLoginIn: (value: boolean) => void,
+
 }
 
 export const useStore = create<CardState>((set) => ({
-   
-    isUserLoggedIn:false,
-    setUserLoginIn: () => set((state) => ({ ...state, isUserLoggedIn: true })),
-    
+    idLoggedUser: "",
+    isUserLoggedIn: null,
+    setUserLoginIn: (value) => set((state) => ({ ...state, isUserLoggedIn: value })),
+    setUserIdLoggedIn: (value) => set((state) => ({ ...state, idLoggedUser: value })),
+
     fetch: () => {
         getData().then((datas) => {
-            console.log(datas)
             set({ cards: datas });
         })
     },
     cards: {},
-    addNewCard: async (title: string, description: string) => {
+    addNewCard: async (title: string, description: string, idLoggedUser) => {
         const newCard: Card = {
             title,
             description,
             id: new Date().getTime().toString(),
-            questions: []
+            questions: [],
+            Userid: idLoggedUser,
         };
         try {
             await setDoc(doc(db, "Card", newCard.id), {
@@ -41,7 +43,7 @@ export const useStore = create<CardState>((set) => ({
                     title: newCard.title,
                     description: newCard.description,
                     questions: newCard.questions,
-                    id: new Date().getTime().toString(),
+                    Userid: idLoggedUser,
                 }
             });
         } catch (error) {
@@ -49,17 +51,13 @@ export const useStore = create<CardState>((set) => ({
         }
     },
     addQuestionToCard: async (id: string, title: string, description: string, clickedCard) => {
-        // const cardId = clickedCard.findIndex((card: Card) => card.id === id);
-        // const updatedCard = { ...clickedCard[cardId], questions: [...clickedCard[cardId].questions, { question: title, answer: description }] };
-        
-        // set((state) => ({
-        //     ...state,
-            
-        //     cards: [...state.card.slice(0, cardId), updatedCard, ...state.card.slice(cardId + 1)],
-        // }));
-        // await updateDoc(doc(db, "Card", id), {
-        //     Card: updatedCard
-        // });
+
+        const updatedCard = { ...clickedCard, questions: [...clickedCard.questions, { question: title, answer: description }] };
+
+
+        await updateDoc(doc(db, "Card", id), {
+            Card: updatedCard
+        });
     },
 }))
 
