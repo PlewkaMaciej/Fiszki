@@ -29,6 +29,7 @@ export const SecondContainer = styled.div`
   background-color: #131a22;
   flex-direction: column;
   align-items: center;
+  text-align:center;
 `;
 export const MainContainer = styled.div`
   background-color: #131a22;
