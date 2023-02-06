@@ -18,8 +18,11 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   background-color: #131a22;
-  min-height: 100vh;
+
   flex-wrap: wrap;
+  @media (max-width: 800px) {
+    flex-directon: column;
+  }
 `;
 export const SecondContainer = styled.div`
   display: flex;
@@ -29,6 +32,7 @@ export const SecondContainer = styled.div`
 `;
 export const MainContainer = styled.div`
   background-color: #131a22;
+  min-height: 100vh;
 `;
 
 export const SingleCardContainer = styled.div`
@@ -55,15 +59,14 @@ export const SingleCardContainer = styled.div`
   font-size: 16px;
   transition: box-shadow 0.2s infinite;
   @media (max-width: 600px) {
-    width:200px;
-    height:100px;
-    font-size:10px;
-   }
-
+    width: 200px;
+    height: 100px;
+    font-size: 10px;
+  }
 `;
 export const Heading = styled.h2`
  font-size:32px;
- margin:5%;
+ margin-top:5%;
  max-width:200px;
  max-height:50px:
  font-weight:600;
@@ -72,19 +75,20 @@ export const Heading = styled.h2`
  bottom:15%;
  @media (max-width: 600px) {
   
-  font-size:24px;
+  font-size:12px;
  }
 `;
 export const Paragraph = styled.p`
   font-size: 16px;
-  margin: 5%;
   max-width: 300px;
   max-height: 120px;
   color: #131a22;
   font-weight: 550;
   position: relative;
   bottom: 10%;
-  
+  @media (max-width: 800px) {
+    flex-directon: column;
+  }
 `;
 export const Paragraph2 = styled.p`
   font-size: 16px;
@@ -112,7 +116,9 @@ export const AddButton = styled.button`
   padding: 10px 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.2s infinite, transform 0.2s infinite;
-
+  @media (max-width: 800px) {
+    width: 150px;
+  }
   &:hover {
     cursor: pointer;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
@@ -123,8 +129,4 @@ export const AddButton = styled.button`
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transform: translateY(1px);
   }
-  @media (max-width: 600px) {
-  width:150px
-    font-size:12px;
-   }
 `;
