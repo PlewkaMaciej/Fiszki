@@ -1,59 +1,88 @@
-import { RegisterAndLogInContainer, Button, MainContainer, Paragraph, Container, Button2 } from "./navStyles";
+import {
+  RegisterAndLogInContainer,
+  Button,
+  MainContainer,
+ 
+  MainButtonContainer,
+} from "./navStyles";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useEffect } from "react";
 import { useStore } from "../../store/Store";
-
+import { useLocation } from "react-router-dom";
 function Nav() {
   const navigate = useNavigate();
+  const location = useLocation();
+ 
+  const isUserLoggedIn = useStore((state) => state.isUserLoggedIn);
+  const setUserLoginIn = useStore((state) => state.setUserLoginIn);
 
-  const [currentUserNickname, setCurrentUserNickname] = useState<string | null>(null);
-  const isUserLoggedIn = useStore((state) => state.isUserLoggedIn)
-  const setUserLoginIn = useStore((state) => state.setUserLoginIn)
-
-  const setUserIdLoggedIn = useStore((state) => state.setUserIdLoggedIn)
+  const setUserIdLoggedIn = useStore((state) => state.setUserIdLoggedIn);
   const auth = getAuth();
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUserIdLoggedIn(user.uid)
-        setUserLoginIn(true)
-        setCurrentUserNickname(user.displayName)
+        setUserIdLoggedIn(user.uid);
+        setUserLoginIn(true);
       } else {
-        setUserLoginIn(false)
-        setUserIdLoggedIn("")
+        setUserLoginIn(false);
+        setUserIdLoggedIn("");
       }
     });
-  }, [auth, setUserIdLoggedIn, setUserLoginIn])
+  }, [auth, setUserIdLoggedIn, setUserLoginIn]);
   const logout = () => {
-    setUserIdLoggedIn("")
-    setUserLoginIn(false)
-    auth.signOut();
-  }
 
+    auth.signOut();
+    navigate(`/`);
+  };
+  const goToMyCards = () => {
+    navigate(`/myCards`);
+  };
+  const goToMainMenu=()=>{
+    navigate(`/`);
+  }
   return (
     <>
+   
       <MainContainer>
+      
+     <MainButtonContainer>
+         
+        {location.pathname !== "/" && (
+                  <Button onClick={goToMainMenu}>Main menu</Button> 
+                )}    
+        </MainButtonContainer>
         <RegisterAndLogInContainer>
-          {isUserLoggedIn === false &&
+          
+          {isUserLoggedIn === false && (
             <>
-              <Button onClick={() => {
-                navigate(`/login`);
-              }}>Log In</Button>
-              <Button onClick={() => {
-                navigate(`/register`);
-              }}>Register</Button>
+              <Button
+                onClick={() => {
+                  navigate(`/login`);
+                }}
+              >
+                Log In
+              </Button>
+              <Button
+                onClick={() => {
+                  navigate(`/register`);
+                }}
+              >
+                Register
+              </Button>
             </>
-          }
-          {isUserLoggedIn === true &&
+          )}
+          {isUserLoggedIn === true && (
             <>
-              <Container>
-                <Paragraph>Logged in as {currentUserNickname}</Paragraph>
-                <Button2 onClick={logout}>Log out</Button2>
-              </Container>
+              
+                
+                {location.pathname !== "/myCards" && (
+                  <Button onClick={goToMyCards}>Go to my cards</Button>
+                )}
+                <Button onClick={logout}>Log out</Button>
+             
             </>
-          }
+          )}
         </RegisterAndLogInContainer>
       </MainContainer>
     </>

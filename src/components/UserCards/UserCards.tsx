@@ -8,24 +8,25 @@ import {
   Container,
   AddButton,
   Paragraph2,
-} from "./mainCardstyles";
+} from "./userCardstyles";
 import { Card } from "../../types/types";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../store/Store";
 import { useEffect } from "react";
 import Nav from "../Navigation/Nav";
 import { ObjectOfCards } from "../../types/types";
-function MainCards() {
-  const cards = useStore((state) => state.cards) as ObjectOfCards;
-  const fetch = useStore((state) => state.fetch);
+function MyCards() {
+  const userIdLoggedUser = useStore((state) => state.idLoggedUser);
+  const userCards = useStore((state) => state.userCards) as ObjectOfCards;
+  const fetchUserCards = useStore((state) => state.fetchUserCards);
   const isUserLoggedIn = useStore((state) => state.isUserLoggedIn);
   const navigate = useNavigate();
   const checkWhatCardIClicked = (singleCard: Card) => {
     navigate(`/questions/${singleCard.id}`);
   };
   useEffect(() => {
-    fetch();
-  }, [fetch]);
+    fetchUserCards(userIdLoggedUser);
+  }, [userIdLoggedUser,fetchUserCards]);
   return (
     <>
       <MainContainer>
@@ -39,7 +40,7 @@ function MainCards() {
           {isUserLoggedIn && (
             <AddButton
               onClick={() => {
-                navigate(`/addNewCard`);
+                navigate(`./addNewCard`);
               }}
             >
               Add new card
@@ -48,7 +49,7 @@ function MainCards() {
         </SecondContainer>
 
         <Container>
-          {Object.values(cards).map((singleCard: Card, index) => {
+          {Object.values(userCards).map((singleCard: Card, index) => {
             return (
               <SingleCardContainer
                 key={index}
@@ -65,4 +66,4 @@ function MainCards() {
   );
 }
 
-export default MainCards;
+export default MyCards;

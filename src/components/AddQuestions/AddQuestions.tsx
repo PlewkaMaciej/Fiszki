@@ -1,12 +1,17 @@
 import { useState } from "react";
-import { Input, InputContainer, Container, Label, AddButton, ErrorParagraph, MainMenuButton, } from "../../styles/commonStyles";
+import {
+  Input,
+  InputContainer,
+  Container,
+  Label,
+  AddButton,
+  ErrorParagraph,
+} from "../../styles/commonStyles";
 import { useNavigate, useParams } from "react-router-dom";
 import { useStore } from "../../store/Store";
 import Nav from "../Navigation/Nav";
 import { ObjectOfCards } from "../../types/types";
 function AddQuestions() {
-
-
   const { id } = useParams();
   const cards = useStore((state) => state.cards) as ObjectOfCards;
   const navigate = useNavigate();
@@ -15,7 +20,7 @@ function AddQuestions() {
   const [titleError, setTitleError] = useState<string | null>(null);
   const [descriptionError, setDescriptionError] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<boolean | null>(null);
-  const addQuestionToCard = useStore((state) => state.addQuestionToCard)
+  const addQuestionToCard = useStore((state) => state.addQuestionToCard);
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     if (event.target.value.length < 6) {
@@ -23,22 +28,20 @@ function AddQuestions() {
     } else {
       setTitleError(null);
     }
-
   };
-  const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setDescription(event.target.value);
     if (event.target.value.length < 6) {
-      setDescriptionError("must have at least 6 characters")
+      setDescriptionError("must have at least 6 characters");
     } else {
-      setDescriptionError(null)
+      setDescriptionError(null);
     }
-
   };
-  const backToMainMenu = () => {
-    navigate(`/`);
-  }
+ 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
     if (title.length >= 6 && description.length >= 6 && id) {
       addQuestionToCard(id, title, description, cards[id]);
       navigate(`/questions/${id}`);
@@ -50,28 +53,40 @@ function AddQuestions() {
   return (
     <>
       <Nav />
-      <MainMenuButton onClick={backToMainMenu}>Back to main menu</MainMenuButton>
+    
       <form onSubmit={handleSubmit}>
         <Container>
           <InputContainer>
-
-            <Label htmlFor="title" >Question&nbsp;{titleError && <p>{titleError}</p>
-            }
-
+            <Label htmlFor="title">
+              Question&nbsp;{titleError && <p>{titleError}</p>}
             </Label>
-            <Input name="title" id="title" onChange={handleTitleChange} value={title} />
+            <Input
+              name="title"
+              id="title"
+              onChange={handleTitleChange}
+              value={title}
+            />
 
-            <Label htmlFor="description">Answer&nbsp;{descriptionError && <p>{descriptionError}</p>}</Label>
-            <Input name="description" id="description" onChange={handleDescriptionChange} value={description} />
+            <Label htmlFor="description">
+              Answer&nbsp;{descriptionError && <p>{descriptionError}</p>}
+            </Label>
+            <Input
+              name="description"
+              id="description"
+              onChange={handleDescriptionChange}
+              value={description}
+            />
             <AddButton type="submit">Add new Question</AddButton>
-            {submitError && <ErrorParagraph>Please fill in the gaps in the form with the right number of characters</ErrorParagraph>}
-
+            {submitError && (
+              <ErrorParagraph>
+                Please fill in the gaps in the form with the right number of
+                characters
+              </ErrorParagraph>
+            )}
           </InputContainer>
-
         </Container>
       </form>
     </>
-
   );
 }
 

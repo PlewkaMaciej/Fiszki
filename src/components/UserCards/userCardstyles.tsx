@@ -64,7 +64,7 @@ export const SingleCardContainer = styled.div`
 export const Heading = styled.h2`
  font-size:32px;
  margin:5%;
- max-width:200px;
+ max-width:100px;
  max-height:50px:
  font-weight:600;
  border-bottom: 1px solid #00b0ff;

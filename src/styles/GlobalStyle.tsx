@@ -1,5 +1,8 @@
-import { createGlobalStyle } from 'styled-components';
-<link href="https://fonts.googleapis.com/css2?family=Andika&display=swap" rel="stylesheet"></link>
+import { createGlobalStyle } from "styled-components";
+<link
+  href="https://fonts.googleapis.com/css2?family=Andika&display=swap"
+  rel="stylesheet"
+></link>;
 const GlobalStyle = createGlobalStyle`
 
   * {
@@ -10,5 +13,5 @@ const GlobalStyle = createGlobalStyle`
 
 
 `;
- 
+
 export default GlobalStyle;
