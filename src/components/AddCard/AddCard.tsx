@@ -1,81 +1,67 @@
-import { useState } from "react";
+
 import {
   Input,
   InputContainer,
   Container,
   Label,
   AddButton,
-  ErrorParagraph,
 } from "../../styles/commonStyles";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../store/Store";
 import Nav from "../Navigation/Nav";
-
+import { useFormik } from "formik";
+import * as Yup from 'yup';
 function AddCard() {
   const navigate = useNavigate();
   const idLoggedUser = useStore((state) => state.idLoggedUser);
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [titleError, setTitleError] = useState<string | null>(null);
-  const [descriptionError, setDescriptionError] = useState<string | null>(null);
-  const [submitError, setSubmitError] = useState<boolean | null>(null);
-  const addNewCard = useStore((state) => state.addNewCard);
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    if (event.target.value.length < 6) {
-      setTitleError(" must have at least 6 characters");
-    } else {
-      setTitleError(null);
-    }
-  };
 
-  const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setDescription(event.target.value);
-    if (event.target.value.length < 6) {
-      setDescriptionError("must have at least 6 characters");
-    } else {
-      setDescriptionError(null);
-    }
-  };
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (title.length >= 6 && description.length >= 6) {
-      addNewCard(title, description, idLoggedUser);
+  const addNewCard = useStore((state) => state.addNewCard);
+
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      description: "",
+    },
+    validationSchema: Yup.object({
+      title: Yup.string()
+      .min(6, 'Must be 6 characters or more')
+        .max(15, 'Must be 15 characters or less')
+        .required('Required'),
+      description: Yup.string()
+      .min(6, 'Must be 6 characters or more')
+      .max(15, 'Must be 15 characters or less')
+      .required('Required'),
+    }),
+    onSubmit: (values) => {
+      addNewCard(values.title, values.description, idLoggedUser);
       navigate("/");
-    }
-    if (title.length < 6 && description.length < 6) {
-      setSubmitError(true);
-    }
-  };
+    },
+  });
   return (
     <>
       <Nav />
-    
-      <form onSubmit={handleSubmit}>
+
+      <form onSubmit={formik.handleSubmit}>
         <Container>
           <InputContainer>
-            <Label htmlFor="title">
-              Title&nbsp;{titleError && <p>{titleError}</p>}
-            </Label>
-            <Input id="title" onChange={handleTitleChange} value={title} />
+            <Label htmlFor="title">Title&nbsp;{formik.touched.title && formik.errors.title? (
+         <p>{formik.errors.title}</p>
+       ) : null}</Label>
+            <Input
+              id="title"
+              {...formik.getFieldProps('title')}
+             
+            />
 
-            <Label htmlFor="description">
-              Description&nbsp;{descriptionError && <p>{descriptionError}</p>}
-            </Label>
+            <Label htmlFor="description">Description&nbsp;{formik.touched.description && formik.errors.description? (
+         <p>{formik.errors.description}</p>
+       ) : null}</Label>
             <Input
               id="description"
-              onChange={handleDescriptionChange}
-              value={description}
+              {...formik.getFieldProps('description')}
+              
             />
             <AddButton type="submit">Add Card</AddButton>
-            {submitError && (
-              <ErrorParagraph>
-                Please fill in the gaps in the form with the right number of
-                characters
-              </ErrorParagraph>
-            )}
           </InputContainer>
         </Container>
       </form>
