@@ -8,3 +8,7 @@ export interface Card {
 export interface ObjectOfCards {
   [key: string]: Card;
 }
+export interface FormValues {
+  title: string;
+  description: string;
+}

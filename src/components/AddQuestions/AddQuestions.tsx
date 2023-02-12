@@ -1,88 +1,73 @@
-import { useState } from "react";
 import {
   Input,
   InputContainer,
   Container,
   Label,
   AddButton,
-  ErrorParagraph,
 } from "../../styles/commonStyles";
 import { useNavigate, useParams } from "react-router-dom";
 import { useStore } from "../../store/Store";
 import Nav from "../Navigation/Nav";
 import { ObjectOfCards } from "../../types/types";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { FormValues } from "../../types/types";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
 function AddQuestions() {
   const { id } = useParams();
+
   const cards = useStore((state) => state.cards) as ObjectOfCards;
   const navigate = useNavigate();
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [titleError, setTitleError] = useState<string | null>(null);
-  const [descriptionError, setDescriptionError] = useState<string | null>(null);
-  const [submitError, setSubmitError] = useState<boolean | null>(null);
+
   const addQuestionToCard = useStore((state) => state.addQuestionToCard);
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    if (event.target.value.length < 6) {
-      setTitleError(" must have at least 6 characters");
-    } else {
-      setTitleError(null);
-    }
-  };
-  const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setDescription(event.target.value);
-    if (event.target.value.length < 6) {
-      setDescriptionError("must have at least 6 characters");
-    } else {
-      setDescriptionError(null);
-    }
-  };
- 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (title.length >= 6 && description.length >= 6 && id) {
-      addQuestionToCard(id, title, description, cards[id]);
+  const schema = yup
+    .object({
+      title: yup
+        .string()
+        .min(6, "Must be 6 characters or more")
+        .max(15, "Must be 15 characters or less")
+        .required("Required"),
+      description: yup
+        .string()
+        .min(6, "Must be 6 characters or more")
+        .max(15, "Must be 15 characters or less")
+        .required("Required"),
+    })
+    .required();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: yupResolver(schema),
+  });
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    if (id) {
+      addQuestionToCard(id, data.title, data.description, cards[id]);
       navigate(`/questions/${id}`);
-    }
-    if (title.length < 6 && description.length < 6) {
-      setSubmitError(true);
+    } else {
+      console.error("ID is not defined");
     }
   };
+
   return (
     <>
       <Nav />
-    
-      <form onSubmit={handleSubmit}>
+
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Container>
           <InputContainer>
-            <Label htmlFor="title">
-              Question&nbsp;{titleError && <p>{titleError}</p>}
-            </Label>
+            <Label htmlFor="title">Question&nbsp; <p>{errors.title?.message}</p></Label>
             <Input
-              name="title"
-              id="title"
-              onChange={handleTitleChange}
-              value={title}
+               {...register("title")}
             />
-
-            <Label htmlFor="description">
-              Answer&nbsp;{descriptionError && <p>{descriptionError}</p>}
-            </Label>
+            
+            <Label htmlFor="description">Answer&nbsp; <p>{errors.description?.message}</p></Label>
             <Input
-              name="description"
-              id="description"
-              onChange={handleDescriptionChange}
-              value={description}
+               {...register("description")}
             />
             <AddButton type="submit">Add new Question</AddButton>
-            {submitError && (
-              <ErrorParagraph>
-                Please fill in the gaps in the form with the right number of
-                characters
-              </ErrorParagraph>
-            )}
           </InputContainer>
         </Container>
       </form>
