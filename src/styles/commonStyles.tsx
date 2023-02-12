@@ -16,6 +16,7 @@ export const Label = styled.label`
   color: White;
   display: flex;
 `;
+
 export const ErrorParagraph = styled.p`
   font-size: 18px;
   font-weight: 600;

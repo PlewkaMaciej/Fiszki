@@ -8,28 +8,29 @@ import {
   AddButton,
   ErrorParagraph,
 } from "../../styles/commonStyles";
+import { Form, Field } from "react-final-form";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
 function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [submitDataError, setDataError] = useState<boolean | null>(null);
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-  const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setPassword(event.target.value);
-  };
- 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const validate = (values: any) => {
+    const errors: any = {};
+    if (!values.email) {
+      errors.email = "Required";
+    }
+    if (!values.password) {
+      errors.password = "Required";
+    }
+    return errors;
+  };
+
+  const handleSubmit = async (values: any) => {
     const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(auth, values.email, values.password)
       .then(() => {
         navigate("/");
       })
@@ -41,36 +42,59 @@ function Login() {
         }
       });
   };
+
   return (
     <>
-<Nav/>
-      <form onSubmit={handleSubmit}>
-        
-        <Container>
-          <InputContainer>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              type="email"
-              name="email"
-              id="email"
-              onChange={handleTitleChange}
-              value={email}
-            />
+      <Nav />
+      <Form
+        onSubmit={handleSubmit}
+        validate={validate}
+        render={({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Container>
+              <InputContainer>
+                <Field name="email">
+                  {({ input, meta }) => (
+                    <>
+                      <Label htmlFor="email">
+                        <span>
+                          Email{" "}
+                          {meta.error && meta.touched && (
+                            <ErrorParagraph>{meta.error}</ErrorParagraph>
+                          )}
+                        </span>
+                      </Label>
+                      <Input {...input} id="email" type="email" />
+                    </>
+                  )}
+                </Field>
 
-            <Label htmlFor="password">Password</Label>
-            <Input
-              type="password"
-              name="password"
-              id="password"
-              onChange={handleDescriptionChange}
-              value={password}
-            />
-            <AddButton type="submit">Sign In</AddButton>
+                <Field name="password">
+                  {({ input, meta }) => (
+                    <>
+                      <Label htmlFor="password">
+                        <span>
+                          Password{" "}
+                          {meta.error && meta.touched && (
+                            <ErrorParagraph>{meta.error}</ErrorParagraph>
+                          )}
+                        </span>
+                      </Label>
+                      <Input {...input} id="password" type="password" />
+                    </>
+                  )}
+                </Field>
 
-            {submitDataError && <ErrorParagraph>{errorMessage}</ErrorParagraph>}
-          </InputContainer>
-        </Container>
-      </form>
+                <AddButton type="submit">Sign In</AddButton>
+
+                {submitDataError && (
+                  <ErrorParagraph>{errorMessage}</ErrorParagraph>
+                )}
+              </InputContainer>
+            </Container>
+          </form>
+        )}
+      />
     </>
   );
 }
