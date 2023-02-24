@@ -3,7 +3,7 @@ import { db } from "../FirebaseConfig/FirebaseConfig";
 import { Card } from "../types/types";
 import { ObjectOfCards } from "../types/types";
 
-export const getUserCardsData = async (idLoggedUser: string): Promise<{}> => {
+export const getUserCardsData = async (idLoggedUser: string): Promise<Record<string,Card>> => {
   const q = query(
     collection(db, "Card"),
     where("Card.Userid", "==", idLoggedUser)

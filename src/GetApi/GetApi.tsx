@@ -3,7 +3,7 @@ import { db } from "../FirebaseConfig/FirebaseConfig";
 import { Card } from "../types/types";
 import { ObjectOfCards } from "../types/types";
 
-export const getData = async (): Promise<{}> => {
+export const getData = async (): Promise<Record<string,Card>> => {
   const q = query(collection(db, "Card"));
   const querySnapshot = await getDocs(q);
   const objectOfCards: ObjectOfCards = {};

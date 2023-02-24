@@ -8,16 +8,16 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { useStore } from "../../store/Store";
 import Nav from "../Navigation/Nav";
-import { ObjectOfCards } from "../../types/types";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FormValues } from "../../types/types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useCards } from "../../UseQuerry/GetCards";
 
 function AddQuestions() {
   const { id } = useParams();
 
-  const cards = useStore((state) => state.cards) as ObjectOfCards;
+  const {  data: cards, isSuccess } = useCards();
   const navigate = useNavigate();
 
   const addQuestionToCard = useStore((state) => state.addQuestionToCard);
@@ -43,7 +43,7 @@ function AddQuestions() {
     resolver: yupResolver(schema),
   });
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    if (id) {
+    if (id&& isSuccess) {
       addQuestionToCard(id, data.title, data.description, cards[id]);
       navigate(`/questions/${id}`);
     } else {

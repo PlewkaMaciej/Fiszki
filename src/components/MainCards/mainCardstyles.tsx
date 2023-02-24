@@ -18,12 +18,13 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   background-color: #131a22;
-
+align-items:center;
   flex-wrap: wrap;
   @media (max-width: 800px) {
     flex-directon: column;
   }
 `;
+
 export const SecondContainer = styled.div`
   display: flex;
   background-color: #131a22;
@@ -106,7 +107,7 @@ export const BigHeading = styled.h1`
 
 export const AddButton = styled.button`
   background: linear-gradient(to right, #00b0ff, #0091ea);
-  margin-top: 5%;
+  margin-top: 2%;
   width: 300px;
   height: 5%;
   border: none;

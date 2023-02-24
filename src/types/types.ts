@@ -3,6 +3,7 @@ export interface Card {
   description: string;
   id: string;
   Userid: string;
+  category:string
   questions: { question: string; answer: string }[];
 }
 export interface ObjectOfCards {
@@ -12,3 +13,8 @@ export interface FormValues {
   title: string;
   description: string;
 }
+export interface SortingCardsProps {
+  cards?: Record<string, Card>;
+  isSuccess:boolean;
+}
+

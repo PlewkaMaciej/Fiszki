@@ -7,9 +7,11 @@ import AddQuestions from "./components/AddQuestions/AddQuestions";
 import Register from "./components/Register/Register";
 import Login from "./components/SignIn/LogIn";
 import MyCards from "./components/UserCards/UserCards";
-
+import { QueryClient, QueryClientProvider } from 'react-query'
+const queryClient = new QueryClient()
 function App() {
   return (
+    <QueryClientProvider client={queryClient}>
     <>
       <GlobalStyle />
       <HashRouter>
@@ -24,6 +26,7 @@ function App() {
         </Routes>
       </HashRouter>
     </>
+    </QueryClientProvider>
   );
 }
 
