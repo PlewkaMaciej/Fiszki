@@ -10,7 +10,7 @@ interface CardState {
     title: string,
     description: string,
     userIdLoggedIn: string,
-    category: string
+    category: string,
   ) => void;
   addQuestionToCard: (
     id: string,
@@ -30,9 +30,9 @@ export const useStore = create<CardState>((set) => ({
   idLoggedUser: "",
   isUserLoggedIn: null,
   setUserLoginIn: (value) =>
-    set((state) => ({ ...state, isUserLoggedIn: value })),
+    set(() => ({  isUserLoggedIn: value })),
   setUserIdLoggedIn: (value) =>
-    set((state) => ({ ...state, idLoggedUser: value })),
+    set(() => ({  idLoggedUser: value })),
   setFilteredCards: (value) => {
     set({ filterCards: value });
   },
@@ -42,8 +42,8 @@ export const useStore = create<CardState>((set) => ({
   },
   filterCards: {},
   addNewCard: async (
-    title: string,
-    description: string,
+    title,
+    description,
     idLoggedUser,
     category
   ) => {
@@ -51,13 +51,14 @@ export const useStore = create<CardState>((set) => ({
 
     try {
       await setDoc(doc(db, "Card", id), {
-        Card: {
+        
           title: title,
+          likes:[],
           description: description,
           questions: [],
           Userid: idLoggedUser,
           category: category,
-        },
+        
       });
     } catch (error) {
       console.log(error);
@@ -69,16 +70,12 @@ export const useStore = create<CardState>((set) => ({
     description: string,
     clickedCard
   ) => {
-    const updatedCard = {
-      ...clickedCard,
+    
+    await updateDoc(doc(db, "Card", id), {
       questions: [
         ...clickedCard.questions,
         { question: title, answer: description },
       ],
-    };
-
-    await updateDoc(doc(db, "Card", id), {
-      Card: updatedCard,
     });
   },
 }));

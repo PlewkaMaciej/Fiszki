@@ -73,7 +73,7 @@ function AddCard() {
                 ) : null}
               </SelectLabel>
               <Select id="category" {...formik.getFieldProps("category")}>
-                <Option id="">--Select a category--</Option>
+                <Option id="" value="" selected disabled hidden>--Select a category--</Option>
                 <Option id="Sport">Sport</Option>
                 <Option id="History">History</Option>
                 <Option id="Science">Science</Option>

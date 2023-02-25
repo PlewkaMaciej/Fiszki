@@ -41,8 +41,8 @@ function SortingCards({ cards }: SortingCardsProps) {
             <SelectLabel htmlFor="category">
               Filter cards by category
             </SelectLabel>
-            <Select id="category" {...formik.getFieldProps("category")}>
-              <Option id="">--Select a category--</Option>
+            <Select id="category" {...formik.getFieldProps("category")} defaultValue="Select a Category">
+              <Option   value="" selected disabled hidden id="">--Select a category--</Option>
               <Option id="Sport">Sport</Option>
               <Option id="History">History</Option>
               <Option id="Science">Science</Option>

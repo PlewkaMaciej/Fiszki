@@ -4,6 +4,7 @@ export interface Card {
   id: string;
   Userid: string;
   category:string
+  likes:string[],
   questions: { question: string; answer: string }[];
 }
 export interface ObjectOfCards {
@@ -16,5 +17,10 @@ export interface FormValues {
 export interface SortingCardsProps {
   cards?: Record<string, Card>;
   isSuccess:boolean;
+}
+export interface LikesProps {
+  cards?: Record<string, Card>;
+  isSuccess:boolean;
+  id:string
 }
 
