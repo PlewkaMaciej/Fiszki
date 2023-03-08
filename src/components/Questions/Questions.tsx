@@ -17,12 +17,16 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useStore } from "../../store/Store";
 import Nav from "../Navigation/Nav";
+import { useEffect } from "react";
+import { Card } from "../../types/types";
 
 function Questions() {
+  const [currentCard, setCurrentCard] = useState<Card>();
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
   const [whichQuestion, setWhichQuestion] = useState<number>(0);
   const { data: cards, isSuccess } = useCards();
   const userIdLoggedUser = useStore((state) => state.idLoggedUser);
+  
 
   const params = useParams<{ id: string }>();
   let cardId: string = "";
@@ -30,7 +34,12 @@ function Questions() {
     cardId = params.id;
   }
   const navigate = useNavigate();
-
+  useEffect(()=>{
+    if(isSuccess){
+     const currentCard = cards.find((card) => card.id === cardId);
+     setCurrentCard(currentCard)
+    } 
+   },[isSuccess,cardId,cards])
   const showAnswerFunction = () => {
     if (!showAnswer) {
       setShowAnswer(true);
@@ -51,7 +60,7 @@ function Questions() {
         {isSuccess && (
           <>
             <Container>
-              {cards[cardId] && (
+              {currentCard && (
                 <React.Fragment>
                   <>
                     {whichQuestion !== 0 && (
@@ -62,10 +71,10 @@ function Questions() {
                       />
                     )}
                     <CardContainer>
-                      {cards[cardId].questions.length > 0 && (
+                      {currentCard.questions.length > 0 && (
                         <>
                           <Heading>
-                            {cards[cardId].questions[whichQuestion].question}
+                            {currentCard.questions[whichQuestion].question}
                           </Heading>
                           {!showAnswer && (
                             <ShowAnswerButton onClick={showAnswerFunction}>
@@ -75,7 +84,7 @@ function Questions() {
                           {showAnswer && (
                             <>
                               <Paragraph>
-                                {cards[cardId].questions[whichQuestion].answer}
+                                {currentCard.questions[whichQuestion].answer}
                               </Paragraph>
                               <ShowAnswerButton onClick={showAnswerFunction}>
                                 Hide Answer
@@ -85,7 +94,7 @@ function Questions() {
                         </>
                       )}
                     </CardContainer>
-                    {whichQuestion < cards[cardId].questions.length - 1 && (
+                    {whichQuestion < currentCard.questions.length - 1 && (
                       <ArrowRightImg
                         onClick={increaseQuestion}
                         src={ArrowRight}
@@ -97,7 +106,7 @@ function Questions() {
               )}
             </Container>
             <Container>
-              {cards[cardId] && userIdLoggedUser === cards[cardId].Userid && (
+              {currentCard && userIdLoggedUser === currentCard.Userid && (
                 <AddNewQuestionButton
                   onClick={() => {
                     navigate(`/addQuestions/${cardId}`);

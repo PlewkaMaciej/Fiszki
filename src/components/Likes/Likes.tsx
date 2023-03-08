@@ -7,53 +7,60 @@ import { useQuery } from "react-query";
 import { getData } from "../../GetApi/GetApi";
 import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "../../FirebaseConfig/FirebaseConfig";
+import { Card } from "../../types/types";
+import { useEffect, useState } from "react";
 function Likes({ cards, id }: LikesProps) {
+  const [currentCard, setCurrentCard] = useState<Card>();
   const userIdLoggedUser = useStore((state) => state.idLoggedUser);
   const documentRef = doc(db, "Card", id);
   const { refetch } = useQuery("fetchCards", getData);
+  useEffect(() => {
+    if (cards) {
+      const currentCard = cards.find((card) => card.id === id);
+      setCurrentCard(currentCard);
+    }
+    
+  },[currentCard,cards,id]);
   const addLike = async (userIdLoggedUser: string) => {
-    if(cards){
-        console.log(cards[id])
-        if (cards[id].likes.includes(userIdLoggedUser)) {
-            
-            await updateDoc(documentRef, {
-              likes: arrayRemove(userIdLoggedUser),
-            });
-          } else {
-            await updateDoc(documentRef, {
-              likes: arrayUnion(userIdLoggedUser),
-            });
-          }
-          refetch();
+    if (currentCard) {
+      if (currentCard.likes.includes(userIdLoggedUser)) {
+        await updateDoc(documentRef, {
+          likes: arrayRemove(userIdLoggedUser),
+        });
+      } else {
+        await updateDoc(documentRef, {
+          likes: arrayUnion(userIdLoggedUser),
+        });
+      }
+      refetch();
     }
   };
   return (
     <>
-    {cards&&
-    <LikesContainer>
-        {cards[id].likes.includes(userIdLoggedUser)&&
-        <>
-    <HeartImg
-      src={redHeart}
-      onClick={() => addLike(userIdLoggedUser)}
-      alt="arrowRight"
-    />
-    <p>{cards[id].likes.length}</p>
-    </>
-}
-{cards[id].likes.includes(userIdLoggedUser)===false&&
-    <>
-    <HeartImg
-      src={blackHeart}
-      onClick={() => addLike(userIdLoggedUser)}
-      alt="arrowRight"
-    />
-    <p>{cards[id].likes.length}</p>
-    </>
-}
-  </LikesContainer>
-    }
-      
+      {currentCard && (
+        <LikesContainer>
+          {currentCard.likes.includes(userIdLoggedUser) && (
+            <>
+              <HeartImg
+                src={redHeart}
+                onClick={() => addLike(userIdLoggedUser)}
+                alt="arrowRight"
+              />
+              <p>{currentCard.likes.length}</p>
+            </>
+          )}
+          {currentCard.likes.includes(userIdLoggedUser) === false && (
+            <>
+              <HeartImg
+                src={blackHeart}
+                onClick={() => addLike(userIdLoggedUser)}
+                alt="arrowRight"
+              />
+              <p>{currentCard.likes.length}</p>
+            </>
+          )}
+        </LikesContainer>
+      )}
     </>
   );
 }

@@ -16,16 +16,16 @@ import { useNavigate } from "react-router-dom";
 import { useStore } from "../../store/Store";
 import Nav from "../Navigation/Nav";
 import Likes from "../Likes/Likes";
+import FilteredCards from "../FilteredCards/FilteredCards";
 function MainCards() {
   const isCardFiltered = useStore((state) => state.isCardFiltered);
-  const filterCards = useStore((state): Record<string, Card> => state.filterCards);
   const isUserLoggedIn = useStore((state) => state.isUserLoggedIn);
   const navigate = useNavigate();
   const { isLoading, error, data: cards, isSuccess } = useCards();
+  
   const checkWhatCardIClicked = (singleCard: Card) => {
     navigate(`/questions/${singleCard.id}`);
   };
-  console.log(cards)
   return (
     <>
       <MainContainer>
@@ -49,7 +49,7 @@ function MainCards() {
             
         </SecondContainer>
         
-          <SortingCards cards={cards} isSuccess={isSuccess}/>
+          <SortingCards/>
         
         <Container>
         
@@ -57,12 +57,12 @@ function MainCards() {
           {error instanceof Error && <Paragraph>{error.message}</Paragraph>}
           {isSuccess && !isCardFiltered && (
             <>
-              {Object.values(cards).map((singleCard, index) => {
+              {cards.map((singleCard:Card) => {
                 return (
-                  <>
-                  <Container>
+                  
+                  <Container key={singleCard.id}>
                   <SingleCardContainer
-                    key={index}
+                    
                     onClick={() => checkWhatCardIClicked(singleCard)}
                   >
                     <Heading>{singleCard.title}</Heading>
@@ -71,26 +71,16 @@ function MainCards() {
                   </SingleCardContainer>
                   <Likes id={singleCard.id} cards={cards} isSuccess={isSuccess} />
                   </Container>
-                  </>
+                  
                 );
               })}
+              
             </>
           )}
-           {isSuccess && isCardFiltered && (
-            <>
-              {Object.values(filterCards).map((singleCard: Card, index) => {
-                return (
-                  <SingleCardContainer
-                    key={index}
-                    onClick={() => checkWhatCardIClicked(singleCard)}
-                  >
-                    <Heading>{singleCard.title}</Heading>
-                    <Paragraph>{singleCard.description}</Paragraph>
-                  </SingleCardContainer>
-                );
-              })}
-            </>
-          )}
+{isCardFiltered&&
+              <FilteredCards/>
+              }
+           
         </Container>
       </MainContainer>
     </>

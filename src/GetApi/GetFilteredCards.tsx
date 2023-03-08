@@ -2,10 +2,10 @@ import { collection, query, getDocs, where } from "firebase/firestore";
 import { db } from "../FirebaseConfig/FirebaseConfig";
 import { Card } from "../types/types";
 
-export const getUserCardsData = async (idLoggedUser: string) => {
+export const getFilteredCards = async (category: string) => {
   const q = query(
     collection(db, "Card"),
-    where("Userid", "==", idLoggedUser)
+    where("category", "==", category)
   );
 
   const querySnapshot = await getDocs(q);

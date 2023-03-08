@@ -24,7 +24,7 @@ function AddCard() {
     initialValues: {
       title: "",
       description: "",
-      category:"",
+      category: "",
     },
     validationSchema: Yup.object({
       title: Yup.string()
@@ -38,7 +38,12 @@ function AddCard() {
       category: Yup.string().required("Required"),
     }),
     onSubmit: (values) => {
-      addNewCard(values.title, values.description, idLoggedUser,values.category);
+      addNewCard(
+        values.title,
+        values.description,
+        idLoggedUser,
+        values.category
+      );
       navigate("/");
     },
   });
@@ -73,13 +78,15 @@ function AddCard() {
                 ) : null}
               </SelectLabel>
               <Select id="category" {...formik.getFieldProps("category")}>
-                <Option id="" value="" selected disabled hidden>--Select a category--</Option>
-                <Option id="Sport">Sport</Option>
-                <Option id="History">History</Option>
-                <Option id="Science">Science</Option>
-                <Option id="Chemistry">Chemistry</Option>
-                <Option id="Physics">Physics</Option>
-                <Option id="Physics">Others</Option>
+                <Option value="" disabled hidden>
+                  --Select a category--
+                </Option>
+                <Option value="Sport">Sport</Option>
+                <Option value="History">History</Option>
+                <Option value="Science">Science</Option>
+                <Option value="Chemistry">Chemistry</Option>
+                <Option value="Physics">Physics</Option>
+                <Option value="Others">Others</Option>
               </Select>
             </SelectContainer>
             <AddButton type="submit">Add Card</AddButton>

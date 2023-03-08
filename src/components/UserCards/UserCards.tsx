@@ -33,7 +33,7 @@ function MyCards() {
       enabled: userIdLoggedUser !== "",
     }
   );
-  
+  console.log(userCards)
 
   return (
     <>
@@ -52,10 +52,10 @@ function MyCards() {
         </SecondContainer>
         {isSuccess && (
           <Container>
-            {Object.values(userCards).map((singleCard: Card, index) => {
+            {userCards.map((singleCard: Card, index) => {
               return (
                 <SingleCardContainer
-                  key={index}
+                  key={singleCard.id}
                   onClick={() => checkWhatCardIClicked(singleCard)}
                 >
                   <Heading>{singleCard.title}</Heading>

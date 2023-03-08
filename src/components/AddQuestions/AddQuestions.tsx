@@ -12,12 +12,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { FormValues } from "../../types/types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useCards } from "../../UseQuerry/GetCards";
+
 
 function AddQuestions() {
   const { id } = useParams();
 
-  const {  data: cards, isSuccess } = useCards();
   const navigate = useNavigate();
 
   const addQuestionToCard = useStore((state) => state.addQuestionToCard);
@@ -43,8 +42,8 @@ function AddQuestions() {
     resolver: yupResolver(schema),
   });
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    if (id&& isSuccess) {
-      addQuestionToCard(id, data.title, data.description, cards[id]);
+    if (id) {
+      addQuestionToCard(id, data.title, data.description);
       navigate(`/questions/${id}`);
     } else {
       console.error("ID is not defined");
