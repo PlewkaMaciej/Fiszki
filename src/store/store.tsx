@@ -2,9 +2,7 @@ import { create } from "zustand";
 import { setDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../FirebaseConfig/FirebaseConfig";
 import { arrayUnion } from "firebase/firestore";
-export type StoreState = {
-  filterCardsCategory: string; // Add this line
-};
+
 interface CardState {
   filterCardsCategory: string;
   isCardFiltered: boolean;
@@ -27,7 +25,7 @@ interface CardState {
   setUserLoginIn: (value: boolean) => void;
 }
 
-export const useStore = create<CardState & StoreState>((set) => ({
+export const useStore = create<CardState >((set) => ({
   idLoggedUser: "",
   isUserLoggedIn: null,
   setUserLoginIn: (value) => set(() => ({ isUserLoggedIn: value })),

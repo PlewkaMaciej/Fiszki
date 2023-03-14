@@ -9,7 +9,9 @@ import Login from "./components/SignIn/LogIn";
 import MyCards from "./components/UserCards/UserCards";
 import { QueryClient, QueryClientProvider } from 'react-query'
 const queryClient = new QueryClient()
+
 function App() {
+ 
   return (
     <QueryClientProvider client={queryClient}>
     <>

@@ -9,11 +9,15 @@ import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "../../FirebaseConfig/FirebaseConfig";
 import { Card } from "../../types/types";
 import { useEffect, useState } from "react";
+import { useFilteredCards } from "../../UseQuerry/GetFilteredCards";
 function Likes({ cards, id }: LikesProps) {
   const [currentCard, setCurrentCard] = useState<Card>();
   const userIdLoggedUser = useStore((state) => state.idLoggedUser);
   const documentRef = doc(db, "Card", id);
+  
+  const filterCardsCategory = useStore((state) => state.filterCardsCategory);
   const { refetch } = useQuery("fetchCards", getData);
+  const { refetch: refetchFilteredCards } = useFilteredCards(filterCardsCategory);
   useEffect(() => {
     if (cards) {
       const currentCard = cards.find((card) => card.id === id);
@@ -32,6 +36,7 @@ function Likes({ cards, id }: LikesProps) {
           likes: arrayUnion(userIdLoggedUser),
         });
       }
+      refetchFilteredCards()
       refetch();
     }
   };

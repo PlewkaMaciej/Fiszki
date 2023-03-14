@@ -33,7 +33,6 @@ function MyCards() {
       enabled: userIdLoggedUser !== "",
     }
   );
-  console.log(userCards)
 
   return (
     <>

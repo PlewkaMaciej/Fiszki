@@ -13,7 +13,6 @@ import { FormValues } from "../../types/types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-
 function AddQuestions() {
   const { id } = useParams();
 
@@ -57,15 +56,15 @@ function AddQuestions() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Container>
           <InputContainer>
-            <Label htmlFor="title">Question&nbsp; <p>{errors.title?.message}</p></Label>
-            <Input
-               {...register("title")}
-            />
-            
-            <Label htmlFor="description">Answer&nbsp; <p>{errors.description?.message}</p></Label>
-            <Input
-               {...register("description")}
-            />
+            <Label htmlFor="title">
+              Question&nbsp; <p>{errors.title?.message}</p>
+            </Label>
+            <Input {...register("title")} />
+
+            <Label htmlFor="description">
+              Answer&nbsp; <p>{errors.description?.message}</p>
+            </Label>
+            <Input {...register("description")} />
             <AddButton type="submit">Add new Question</AddButton>
           </InputContainer>
         </Container>
